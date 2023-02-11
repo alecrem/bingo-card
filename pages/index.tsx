@@ -1,7 +1,7 @@
 import { Box, AspectRatio, Container, Heading } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useMounted } from '@/hooks/useMounted'
-import { setup, draw } from '@/p5js/sketch'
+import { setup, draw, windowResized } from '@/p5js/sketch'
 
 const importFunction = () => import('react-p5').then((mod) => mod.default)
 let Sketch: any = null
@@ -22,7 +22,7 @@ export default function Home() {
         {isMounted && (
           <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
             <AspectRatio maxW="container.sm" ratio={1}>
-              <Sketch setup={setup} draw={draw} />
+              <Sketch setup={setup} draw={draw} windowResized={windowResized} />
             </AspectRatio>
           </Container>
         )}
