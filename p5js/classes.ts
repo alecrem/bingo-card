@@ -38,7 +38,7 @@ class CardSpace {
     this.freespace = this.text.toUpperCase() == 'FREE SPACE'
   }
   draw() {
-    const textSizeHardcodedFactor = 6.5
+    const textSizeHardcodedFactor = 5
     const conf = getConf()
     if (this.freespace) {
       this.p5.fill('#fe4')
@@ -47,18 +47,17 @@ class CardSpace {
     }
     this.p5.stroke(0)
     const colWidth = conf.canvasWidth / conf.cols
-    const colHeight = conf.canvasHeight / conf.rows
+    const rowHeight = conf.canvasHeight / conf.rows
     const xRect = (this.x * conf.canvasWidth) / conf.cols
     const yRect = (this.y * conf.canvasHeight) / conf.rows
-    this.p5.rect(xRect, yRect, colWidth, colHeight)
+    this.p5.rect(xRect, yRect, colWidth, rowHeight)
     this.p5.textSize(conf.canvasWidth / conf.rows / textSizeHardcodedFactor)
     this.p5.textStyle(this.p5.BOLD)
-    this.p5.textAlign(this.p5.CENTER)
+    this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
     this.p5.fill(this.fill)
     this.p5.noStroke()
-    const xPos = ((this.x + 0.5) * conf.canvasWidth) / conf.cols
-    const yPos = ((this.y + 0.5) * conf.canvasHeight) / conf.rows
-    this.p5.text(this.text.replace(' ', '\n'), xPos, yPos)
+    const yPos = (this.y * conf.canvasHeight) / conf.rows
+    this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
   }
 }
 
