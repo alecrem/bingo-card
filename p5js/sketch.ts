@@ -1,47 +1,77 @@
 import p5Types from 'p5'
+import { Config, CardSpace } from '@/p5js/classes'
 
-const rows = 5
-const cols = 5
-let canvasWidth: number
-let canvasHeight: number
-let canvasParent: Element
+let spaces: CardSpace[] = []
+let conf: Config
+const spaceText = [
+  'Elden Ring',
+  'Concritud',
+  'Kusoge',
+  'Puta Nintendo',
+  'Puta Sony',
+  'Mario',
+  'Llamada Jacobo',
+  'Game Gear',
+  'Bub & Bob Quest',
+  'Redoble de tambores',
+  'Game Boy',
+  'Por lo que Sega',
+  'FREE SPACE',
+  'Mega Drive',
+  'Master System',
+  'Sega Rally',
+  'Triple A',
+  'Vampire Survivor',
+  'Kirby',
+  'Balan',
+  'Yakuza',
+  'Spectrum',
+  "Club D'Angelo",
+  'Gameflus',
+  'Sonic'
+]
 
 const setup = (p5: p5Types, canvasParentRef: Element) => {
-  canvasParent = canvasParentRef
+  const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
   if (canvasParentRef.parentElement) {
     parentStyle = getComputedStyle(canvasParentRef.parentElement)
   } else {
     parentStyle = getComputedStyle(canvasParentRef)
   }
-  canvasWidth = parseInt(parentStyle.width)
-  canvasHeight = parseInt(parentStyle.height)
+  const canvasWidth = parseInt(parentStyle.width)
+  const canvasHeight = parseInt(parentStyle.height)
+  conf = new Config(5, 5, canvasWidth, canvasHeight, canvasParent)
   const myCanvas = p5
     .createCanvas(canvasWidth, canvasHeight)
     .parent(canvasParentRef)
   myCanvas.id('asjalk')
+
+  spaceText.forEach((text, index) => {
+    const x = index % conf.cols
+    const y = ~~(index / conf.rows)
+    spaces.push(new CardSpace(p5, text, x, y))
+  })
 }
 
 const draw = (p5: p5Types) => {
-  p5.background(200)
-  for (let x: number = 0; x < canvasWidth; x += canvasWidth / cols) {
-    p5.line(x, 0, x, canvasHeight)
-  }
-  for (let y: number = 0; y < canvasHeight; y += canvasHeight / rows) {
-    p5.line(0, y, canvasWidth, y)
-  }
+  p5.background('#fff')
+  spaces.forEach((space) => space.draw())
 }
 
 const windowResized = (p5: p5Types) => {
   let parentStyle: CSSStyleDeclaration
-  if (canvasParent.parentElement) {
-    parentStyle = getComputedStyle(canvasParent.parentElement)
+  if (conf.canvasParent.parentElement) {
+    parentStyle = getComputedStyle(conf.canvasParent.parentElement)
   } else {
-    parentStyle = getComputedStyle(canvasParent)
+    parentStyle = getComputedStyle(conf.canvasParent)
   }
-  canvasWidth = parseInt(parentStyle.width)
-  canvasHeight = parseInt(parentStyle.height)
-  p5.resizeCanvas(canvasWidth, canvasHeight)
+  conf.canvasWidth = parseInt(parentStyle.width)
+  conf.canvasHeight = parseInt(parentStyle.height)
+  p5.resizeCanvas(conf.canvasWidth, conf.canvasHeight)
 }
 
-export { setup, draw, windowResized }
+const getConf = (): Config => {
+  return conf
+}
+export { setup, draw, windowResized, getConf }
