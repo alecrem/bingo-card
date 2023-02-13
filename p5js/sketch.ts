@@ -1,5 +1,6 @@
 import p5Types from 'p5'
 import { Config, CardSpace } from '@/p5js/classes'
+import { shuffleArray } from '@/p5js/misc'
 
 let spaces: CardSpace[] = []
 let conf: Config
@@ -30,6 +31,7 @@ const spaceText = [
   'Gameflus',
   'Sonic'
 ]
+const seed = 0
 
 const setup = (p5: p5Types, canvasParentRef: Element) => {
   const canvasParent = canvasParentRef
@@ -47,7 +49,9 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
     .parent(canvasParentRef)
   myCanvas.id('asjalk')
 
-  spaceText.forEach((text, index) => {
+  spaces = []
+  const shuffledSpaceText = shuffleArray(p5, spaceText, seed).slice(0)
+  shuffledSpaceText.forEach((text, index) => {
     const x = index % conf.cols
     const y = ~~(index / conf.rows)
     spaces.push(new CardSpace(p5, text, x, y))
