@@ -31,6 +31,7 @@ const spaceText = [
   'Gameflus',
   'Sonic'
 ]
+const seed = 0
 
 const setup = (p5: p5Types, canvasParentRef: Element) => {
   const canvasParent = canvasParentRef
@@ -49,7 +50,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   myCanvas.id('asjalk')
 
   spaces = []
-  const shuffledSpaceText = shuffleArray(p5, spaceText).slice(0)
+  const shuffledSpaceText = shuffleArray(p5, spaceText, seed).slice(0)
   shuffledSpaceText.forEach((text, index) => {
     const x = index % conf.cols
     const y = ~~(index / conf.rows)
