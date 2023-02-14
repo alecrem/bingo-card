@@ -1,16 +1,7 @@
-import { Box, AspectRatio, Container, Heading } from '@chakra-ui/react'
-import dynamic from 'next/dynamic'
-import { useMounted } from '@/hooks/useMounted'
-import { setup, draw, windowResized } from '@/p5js/sketch'
-
-const importFunction = () => import('react-p5').then((mod) => mod.default)
-let Sketch: any = null
-if (typeof window !== 'undefined') {
-  Sketch = dynamic(importFunction, { ssr: false })
-}
+import { Box, Container, Heading } from '@chakra-ui/react'
+import { BingoCard } from '@/components/BingoCard'
 
 export default function Home() {
-  const isMounted = useMounted()
   return (
     <>
       <Box>
@@ -19,13 +10,9 @@ export default function Home() {
             Gamerah Bingo
           </Heading>
         </Container>
-        {isMounted && (
-          <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
-            <AspectRatio maxW="container.sm" ratio={1}>
-              <Sketch setup={setup} draw={draw} windowResized={windowResized} />
-            </AspectRatio>
-          </Container>
-        )}
+        <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
+          <BingoCard />
+        </Container>
       </Box>
     </>
   )
