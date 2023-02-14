@@ -35,8 +35,8 @@ const shuffleArray = (
   // Put FREE SPACE in the center
   const index = retSpaces.indexOf(freeSpaceText)
   const spaceAtIndex = retSpaces[index]
-  retSpaces[index] = retSpaces[12]
-  retSpaces[12] = spaceAtIndex
+  retSpaces[index] = retSpaces[freeSpaceIndex]
+  retSpaces[freeSpaceIndex] = spaceAtIndex
   return retSpaces
 }
 
