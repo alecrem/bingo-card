@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import {
   Button,
   useDisclosure,
@@ -16,10 +16,25 @@ import {
   Input
 } from '@chakra-ui/react'
 
-export function JoinButton() {
+export function JoinButton(props: { funct: Function }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [username, setUsername] = useState('')
-  const handleInputChange = (e) => setUsername(e.target.value)
+  const handleInputChange = (event: ChangeEvent) => {
+    const input = event.target as HTMLInputElement
+    if (input.value != null) {
+      setUsername(input.value)
+    }
+  }
+  const transferValue = (event: React.MouseEvent<Element, MouseEvent>) => {
+    event.preventDefault()
+    const val = {
+      username
+    }
+    props.funct(val)
+    setUsername('')
+    onClose()
+  }
+
   const isError = username === '' || username.indexOf('@') !== -1
 
   return (
@@ -52,6 +67,14 @@ export function JoinButton() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
+            <Button
+              isDisabled={isError}
+              colorScheme="blue"
+              onClick={transferValue}
+            >
+              Apuntarse
+            </Button>
+            &nbsp;
             <Button onClick={onClose}>Cerrar</Button>
           </ModalFooter>
         </ModalContent>
