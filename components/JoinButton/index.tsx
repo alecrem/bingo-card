@@ -18,6 +18,7 @@ import {
 
 export function JoinButton(props: { funct: Function }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
   const handleInputChange = (event: ChangeEvent) => {
     const input = event.target as HTMLInputElement
@@ -31,17 +32,30 @@ export function JoinButton(props: { funct: Function }) {
       username
     }
     props.funct(val)
-    setUsername('')
+    setJoined(true)
     onClose()
+  }
+
+  const unJoin = () => {
+    setJoined(false)
+    setUsername('')
+    const val = {
+      username: ''
+    }
+    props.funct(val)
   }
 
   const isError = username === '' || username.indexOf('@') !== -1
 
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen}>
-        Apuntarse
-      </Button>
+      {!joined ? (
+        <Button colorScheme="blue" onClick={onOpen}>
+          Apuntarse
+        </Button>
+      ) : (
+        <Button onClick={unJoin}>Desapuntarse</Button>
+      )}
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
