@@ -74,8 +74,6 @@ export function JoinButton(props: { funct: Function }) {
             >
               Apuntarse
             </Button>
-            &nbsp;
-            <Button onClick={onClose}>Cerrar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
