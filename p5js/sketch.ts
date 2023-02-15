@@ -79,20 +79,21 @@ const getConf = (): Config => {
 
 const resetBingoCard = (p5: p5Types, username: string) => {
   seed = 0
-  if (username !== undefined) {
+  if (username !== undefined && username !== '') {
     const usernameLowercase = username.toLowerCase()
     for (let i = 0; i < usernameLowercase.length; i++) {
       const codePoint = usernameLowercase.codePointAt(i) ?? 0
       seed = (seed + codePoint * Math.pow(10, i + 1)) % Number.MAX_SAFE_INTEGER
     }
-    console.log(usernameLowercase, 'joined with seed', seed)
+    if (seed === 0) seed = 1
+    // console.log(usernameLowercase, 'joined with seed', seed)
   }
   spaces = []
   const shuffledSpaceText = shuffleArray(p5, spaceText, seed).slice(0)
   shuffledSpaceText.forEach((text, index) => {
     const x = index % conf.cols
     const y = ~~(index / conf.rows)
-    spaces.push(new CardSpace(p5, text, x, y))
+    spaces.push(new CardSpace(p5, text, x, y, seed !== 0))
   })
 }
 
