@@ -1,11 +1,23 @@
+import { useState, useEffect } from 'react'
 import { Box, Container, Heading } from '@chakra-ui/react'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
 
 export default function Home() {
+  const [username, setUsername] = useState('')
   const joinBingo = (joinData: { username: string }) => {
-    console.log(joinData.username, 'joined')
+    setUsername(joinData.username)
   }
+  useEffect(() => {
+    if (document === undefined || document === null) return
+    const joinEvent = new CustomEvent('joinevent', {
+      bubbles: true,
+      cancelable: true,
+      composed: false,
+      detail: { username }
+    })
+    document.querySelector('body')?.dispatchEvent(joinEvent)
+  }, [username])
   return (
     <>
       <Box>

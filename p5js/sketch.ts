@@ -31,9 +31,13 @@ const spaceText = [
   'Gameflus',
   'Sonic'
 ]
-const seed = 0
+let seed = 0
 
 const setup = (p5: p5Types, canvasParentRef: Element) => {
+  document.querySelector('body')?.addEventListener('joinevent', (event) => {
+    const customEvent = event as CustomEvent
+    resetBingoCard(p5, customEvent.detail.username)
+  })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
   if (canvasParentRef.parentElement) {
@@ -49,13 +53,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
     .parent(canvasParentRef)
   myCanvas.id('asjalk')
 
-  spaces = []
-  const shuffledSpaceText = shuffleArray(p5, spaceText, seed).slice(0)
-  shuffledSpaceText.forEach((text, index) => {
-    const x = index % conf.cols
-    const y = ~~(index / conf.rows)
-    spaces.push(new CardSpace(p5, text, x, y))
-  })
+  resetBingoCard(p5, '')
 }
 
 const draw = (p5: p5Types) => {
@@ -78,4 +76,24 @@ const windowResized = (p5: p5Types) => {
 const getConf = (): Config => {
   return conf
 }
+
+const resetBingoCard = (p5: p5Types, username: string) => {
+  seed = 0
+  if (username !== undefined) {
+    const usernameLowercase = username.toLowerCase()
+    for (let i = 0; i < usernameLowercase.length; i++) {
+      const codePoint = usernameLowercase.codePointAt(i) ?? 0
+      seed = (seed + codePoint * Math.pow(10, i + 1)) % Number.MAX_SAFE_INTEGER
+    }
+    console.log(usernameLowercase, 'joined with seed', seed)
+  }
+  spaces = []
+  const shuffledSpaceText = shuffleArray(p5, spaceText, seed).slice(0)
+  shuffledSpaceText.forEach((text, index) => {
+    const x = index % conf.cols
+    const y = ~~(index / conf.rows)
+    spaces.push(new CardSpace(p5, text, x, y))
+  })
+}
+
 export { setup, draw, windowResized, getConf }
