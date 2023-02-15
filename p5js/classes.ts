@@ -27,14 +27,22 @@ class CardSpace {
   text: string
   x: number
   y: number
-  active: boolean = false
+  joined: boolean
+  checked: boolean = false
   freespace: boolean = false
   fill: string = '#000'
-  constructor(p5: p5Types, text: string, x: number, y: number) {
+  constructor(
+    p5: p5Types,
+    text: string,
+    x: number,
+    y: number,
+    joined: boolean
+  ) {
     this.p5 = p5
     this.text = text
     this.x = x
     this.y = y
+    this.joined = joined
     this.freespace = this.text.toUpperCase() == 'FREE SPACE'
   }
   draw() {
@@ -51,13 +59,15 @@ class CardSpace {
     const xRect = (this.x * conf.canvasWidth) / conf.cols
     const yRect = (this.y * conf.canvasHeight) / conf.rows
     this.p5.rect(xRect, yRect, colWidth, rowHeight)
-    this.p5.textSize(conf.canvasWidth / conf.rows / textSizeHardcodedFactor)
-    this.p5.textStyle(this.p5.BOLD)
-    this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
-    this.p5.fill(this.fill)
-    this.p5.noStroke()
-    const yPos = (this.y * conf.canvasHeight) / conf.rows
-    this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
+    if (this.joined || this.freespace) {
+      this.p5.textSize(conf.canvasWidth / conf.rows / textSizeHardcodedFactor)
+      this.p5.textStyle(this.p5.BOLD)
+      this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
+      this.p5.fill(this.fill)
+      this.p5.noStroke()
+      const yPos = (this.y * conf.canvasHeight) / conf.rows
+      this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
+    }
   }
 }
 
