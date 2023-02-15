@@ -5,8 +5,10 @@ import { JoinButton } from '@/components/JoinButton'
 
 export default function Home() {
   const [username, setUsername] = useState('')
-  const joinBingo = (joinData: { username: string }) => {
+  const [stage, setStage] = useState<number>()
+  const joinBingo = (joinData: { username: string; stage: number }) => {
     setUsername(joinData.username)
+    setStage(joinData.stage)
   }
   useEffect(() => {
     if (document === undefined || document === null) return
@@ -14,10 +16,10 @@ export default function Home() {
       bubbles: true,
       cancelable: true,
       composed: false,
-      detail: { username }
+      detail: { username, stage }
     })
     document.querySelector('body')?.dispatchEvent(joinEvent)
-  }, [username])
+  }, [username, stage])
   return (
     <>
       <Box>
