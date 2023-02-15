@@ -13,23 +13,32 @@ import {
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-  Input
+  Input,
+  Select
 } from '@chakra-ui/react'
 
 export function JoinButton(props: { funct: Function }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
-  const handleInputChange = (event: ChangeEvent) => {
+  const [stage, setStage] = useState('')
+  const handleUsernameChange = (event: ChangeEvent) => {
     const input = event.target as HTMLInputElement
     if (input.value != null) {
       setUsername(input.value)
     }
   }
+  const handleStageChange = (event: ChangeEvent) => {
+    const input = event.target as HTMLInputElement
+    if (input.value != null) {
+      setStage(input.value)
+    }
+  }
   const transferValue = (event: React.MouseEvent<Element, MouseEvent>) => {
     event.preventDefault()
     const val = {
-      username
+      username,
+      stage
     }
     props.funct(val)
     setJoined(true)
@@ -39,13 +48,17 @@ export function JoinButton(props: { funct: Function }) {
   const unJoin = () => {
     setJoined(false)
     setUsername('')
+    setStage('')
     const val = {
-      username: ''
+      username: '',
+      stage: ''
     }
     props.funct(val)
   }
 
-  const isError = username === '' || username.indexOf('@') !== -1
+  const isErrorUsername = username === '' || username.indexOf('@') !== -1
+  const isErrorStage = stage === ''
+  const isError = isErrorUsername || isErrorStage
 
   return (
     <>
@@ -62,20 +75,44 @@ export function JoinButton(props: { funct: Function }) {
           <ModalHeader>Apuntarse al bingo</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isInvalid={isError}>
-              <FormLabel>Email</FormLabel>
+            <FormControl isInvalid={isErrorUsername}>
+              <FormLabel>Tu Twitter</FormLabel>
               <Input
                 type="email"
                 value={username}
-                onChange={handleInputChange}
+                onChange={handleUsernameChange}
               />
-              {!isError ? (
+              {!isErrorUsername ? (
                 <FormHelperText>
                   Pon tu usuario de Twitter sin la arroba
                 </FormHelperText>
               ) : (
                 <FormErrorMessage>
                   Pon tu usuario de Twitter sin la arroba
+                </FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={isErrorStage}>
+              <FormLabel>Episodio</FormLabel>
+              <Select placeholder="Elige uno" onChange={handleStageChange}>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </Select>
+              {!isErrorStage ? (
+                <FormHelperText>
+                  Elige el número del programa en el que participas
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  Elige el número del programa en el que participas
                 </FormErrorMessage>
               )}
             </FormControl>

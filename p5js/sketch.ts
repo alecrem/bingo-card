@@ -36,7 +36,7 @@ let seed = 0
 const setup = (p5: p5Types, canvasParentRef: Element) => {
   document.querySelector('body')?.addEventListener('joinevent', (event) => {
     const customEvent = event as CustomEvent
-    resetBingoCard(p5, customEvent.detail.username)
+    resetBingoCard(p5, customEvent.detail.username, customEvent.detail.stage)
   })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
@@ -53,7 +53,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
     .parent(canvasParentRef)
   myCanvas.id('asjalk')
 
-  resetBingoCard(p5, '')
+  resetBingoCard(p5)
 }
 
 const draw = (p5: p5Types) => {
@@ -77,24 +77,31 @@ const getConf = (): Config => {
   return conf
 }
 
-const resetBingoCard = (p5: p5Types, username: string) => {
-  seed = 0
-  if (username !== undefined && username !== '') {
+const resetBingoCard = (
+  p5: p5Types,
+  username: string = '',
+  stage: string = ''
+) => {
+  let newSeed = 0
+  if (username !== '' && stage !== '') {
+    newSeed = Number.parseInt(stage)
     const usernameLowercase = username.toLowerCase()
     for (let i = 0; i < usernameLowercase.length; i++) {
       const codePoint = usernameLowercase.codePointAt(i) ?? 0
-      seed = (seed + codePoint * Math.pow(10, i + 1)) % Number.MAX_SAFE_INTEGER
+      newSeed =
+        (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
     }
-    if (seed === 0) seed = 1
-    // console.log(usernameLowercase, 'joined with seed', seed)
+    if (newSeed === 0) newSeed = 1
+    // console.log(usernameLowercase, 'joined with newSeed', newSeed)
   }
   spaces = []
-  const shuffledSpaceText = shuffleArray(p5, spaceText, seed).slice(0)
+  const shuffledSpaceText = shuffleArray(p5, spaceText, newSeed).slice(0)
   shuffledSpaceText.forEach((text, index) => {
     const x = index % conf.cols
     const y = ~~(index / conf.rows)
-    spaces.push(new CardSpace(p5, text, x, y, seed !== 0))
+    spaces.push(new CardSpace(p5, text, x, y, newSeed !== 0))
   })
+  seed = newSeed
 }
 
 export { setup, draw, windowResized, getConf }
