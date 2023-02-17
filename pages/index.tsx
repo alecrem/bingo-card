@@ -2,14 +2,27 @@ import { useState, useEffect } from 'react'
 import { Box, Container, Heading } from '@chakra-ui/react'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
+import { useAirtable } from '@/hooks/useAirtable'
 
+interface AirtableRow {
+  fields: {
+    stage: number
+  }
+}
 export default function Home() {
+  const { getStages } = useAirtable()
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState<number>()
+  const [stageData, setStageData] = useState<AirtableRow[]>([])
   const joinBingo = (joinData: { username: string; stage: number }) => {
     setUsername(joinData.username)
     setStage(joinData.stage)
   }
+  const useGetStages = async () => {
+    // console.log(await getStages())
+    setStageData(await getStages())
+  }
+  useGetStages()
   useEffect(() => {
     if (document === undefined || document === null) return
     const joinEvent = new CustomEvent('joinevent', {
@@ -20,6 +33,7 @@ export default function Home() {
     })
     document.querySelector('body')?.dispatchEvent(joinEvent)
   }, [username, stage])
+
   return (
     <>
       <Box>
@@ -32,6 +46,12 @@ export default function Home() {
           <BingoCard />
         </Container>
       </Box>
+      {/* {JSON.stringify(
+        stageData.filter((e) => {
+          if (e.fields.stage == 44) return true
+          else return false
+        })[0]?.fields
+      )} */}
     </>
   )
 }
