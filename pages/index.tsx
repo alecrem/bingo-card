@@ -46,12 +46,6 @@ export default function Home() {
           <BingoCard />
         </Container>
       </Box>
-      {/* {JSON.stringify(
-        stageData.filter((e) => {
-          if (e.fields.stage == 44) return true
-          else return false
-        })[0]?.fields
-      )} */}
     </>
   )
 }
