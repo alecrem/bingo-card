@@ -4,7 +4,7 @@ import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
 import { useAirtable } from '@/hooks/useAirtable'
 
-interface AirtableRow {
+interface StageData {
   fields: {
     stage: number
   }
@@ -13,16 +13,21 @@ export default function Home() {
   const { getStages } = useAirtable()
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState<number>()
-  const [stageData, setStageData] = useState<AirtableRow[]>([])
+  const [stageData, setStageData] = useState<StageData[]>([])
   const joinBingo = (joinData: { username: string; stage: number }) => {
     setUsername(joinData.username)
     setStage(joinData.stage)
   }
-  const useGetStages = async () => {
-    // console.log(await getStages())
-    setStageData(await getStages())
-  }
-  useGetStages()
+  useEffect(() => {
+    const runGetStages = async () => {
+      // console.log(await getStages())
+      const stages = await getStages()
+      console.log(stages)
+      setStageData(stages)
+      // setStageData(await getStages())
+    }
+    runGetStages()
+  }, [])
   useEffect(() => {
     if (document === undefined || document === null) return
     const joinEvent = new CustomEvent('joinevent', {
