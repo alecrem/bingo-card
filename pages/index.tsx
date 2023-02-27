@@ -20,11 +20,11 @@ export default function Home() {
   }
   useEffect(() => {
     const runGetStages = async () => {
-      // console.log(await getStages())
-      const stages = await getStages()
-      console.log(stages)
+      const stages = (await getStages()).map((row: any) => {
+        return row.fields
+      })
       setStageData(stages)
-      // setStageData(await getStages())
+      localStorage.setItem('stageData', JSON.stringify(stages))
     }
     runGetStages()
   }, [])
