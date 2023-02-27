@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import {
   Button,
   useDisclosure,
@@ -22,6 +22,18 @@ export function JoinButton(props: { funct: Function }) {
   const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
+  const [stageIds, setStageIds] = useState<Number[]>([])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const ids = JSON.parse(localStorage.getItem('stageData') ?? '').map(
+      (row: any) => {
+        return row.stage
+      }
+    )
+    setStageIds(ids)
+  }, [isOpen])
+
   const handleUsernameChange = (event: ChangeEvent) => {
     const input = event.target as HTMLInputElement
     if (input.value != null) {
@@ -95,16 +107,10 @@ export function JoinButton(props: { funct: Function }) {
             <FormControl isInvalid={isErrorStage}>
               <FormLabel>Episodio</FormLabel>
               <Select placeholder="Elige uno" onChange={handleStageChange}>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
+                {stageIds.length > 0 &&
+                  stageIds.map((id) => {
+                    return <option key={id.toString()}>{id.toString()}</option>
+                  })}
               </Select>
               {!isErrorStage ? (
                 <FormHelperText>
