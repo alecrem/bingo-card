@@ -79,20 +79,30 @@ const getConf = (): Config => {
 
 const resetBingoCard = (
   p5: p5Types,
-  username: string = '',
-  stage: string = ''
+  passedUsername: string = '',
+  passedStage: string = ''
 ) => {
+  let username, stage
+  if (passedUsername === '') {
+    username = (localStorage.getItem('bingoUsername') ?? '').toLowerCase()
+  } else username = passedUsername
+  if (passedStage === '') {
+    stage = (localStorage.getItem('bingostage') ?? '').toLowerCase()
+  } else stage = passedStage
   let newSeed = 0
   if (username !== '' && stage !== '') {
-    newSeed = Number.parseInt(stage)
-    const usernameLowercase = username.toLowerCase()
-    for (let i = 0; i < usernameLowercase.length; i++) {
-      const codePoint = usernameLowercase.codePointAt(i) ?? 0
+    for (let i = 0; i < stage.length; i++) {
+      const codePoint = stage.codePointAt(i) ?? 0
+      newSeed =
+        (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
+    }
+    for (let i = stage.length; i < stage.length + username.length; i++) {
+      const codePoint = username.codePointAt(i) ?? 0
       newSeed =
         (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
     }
     if (newSeed === 0) newSeed = 1
-    // console.log(usernameLowercase, 'joined with newSeed', newSeed)
+    // console.log(stage, username, 'joined with newSeed', newSeed)
   }
   spaces = []
   const shuffledSpaceText = shuffleArray(p5, spaceText, newSeed).slice(0)

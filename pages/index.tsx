@@ -16,7 +16,9 @@ export default function Home() {
   const [stageData, setStageData] = useState<StageData[]>([])
   const joinBingo = (joinData: { username: string; stage: number }) => {
     setUsername(joinData.username)
+    localStorage.setItem('bingoUsername', JSON.stringify(joinData.username))
     setStage(joinData.stage)
+    localStorage.setItem('bingoStage', JSON.stringify(joinData.stage))
   }
   useEffect(() => {
     const runGetStages = async () => {
