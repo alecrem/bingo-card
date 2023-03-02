@@ -25,6 +25,17 @@ export function JoinButton(props: { funct: Function }) {
   const [stageIds, setStageIds] = useState<Number[]>([])
 
   useEffect(() => {
+    const initialUsername: string = JSON.parse(
+      localStorage.getItem('bingoUsername') ?? '""'
+    ).toLowerCase()
+    if (typeof initialUsername !== 'string' || initialUsername.length < 1) {
+      setJoined(false)
+      return
+    }
+    setJoined(true)
+  }, [])
+
+  useEffect(() => {
     if (!isOpen) return
     const ids = JSON.parse(localStorage.getItem('stageData') ?? '').map(
       (row: any) => {

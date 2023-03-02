@@ -15,7 +15,7 @@ export function BingoCard() {
   return (
     <>
       {isMounted && (
-        <AspectRatio maxW="container.sm" ratio={1}>
+        <AspectRatio maxW="container.sm" ratio={5 / 6}>
           <Sketch setup={setup} draw={draw} windowResized={windowResized} />
         </AspectRatio>
       )}

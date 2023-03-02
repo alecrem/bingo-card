@@ -2,23 +2,51 @@ import p5Types from 'p5'
 import { getConf } from '@/p5js/sketch'
 
 class Config {
+  p5: p5Types
+  username: string | null
+  stage: string | null
   rows: number
   cols: number
   canvasWidth: number
   canvasHeight: number
   canvasParent: Element
   constructor(
+    p5: p5Types,
     rows: number,
     cols: number,
     canvasWidth: number,
     canvasHeight: number,
-    canvasParent: Element
+    canvasParent: Element,
+    username: string | null = null,
+    stage: string | null = null
   ) {
+    this.p5 = p5
+    this.username = username
+    this.stage = stage
     this.rows = rows
     this.cols = cols
     this.canvasWidth = canvasWidth
     this.canvasHeight = canvasHeight
     this.canvasParent = canvasParent
+  }
+  setUsername(username: string) {
+    this.username = username
+  }
+  setStage(stage: string) {
+    this.stage = stage
+  }
+  draw() {
+    if (typeof this.username !== 'string' || this.username.length < 1) return
+    this.p5.noStroke()
+    const textSize = this.canvasWidth / (this.rows + 1) / 2
+    this.p5.textSize(textSize)
+    this.p5.textStyle(this.p5.BOLD)
+    this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
+    this.p5.text(
+      '@' + this.username + ' ' + this.stage,
+      this.canvasWidth / 2,
+      this.canvasHeight / 7 / 2 + textSize / 3
+    )
   }
 }
 
@@ -55,17 +83,20 @@ class CardSpace {
     }
     this.p5.stroke(0)
     const colWidth = conf.canvasWidth / conf.cols
-    const rowHeight = conf.canvasHeight / conf.rows
+    // Using conf.rows + 1 to account for the header row
+    const rowHeight = conf.canvasHeight / (conf.rows + 1)
     const xRect = (this.x * conf.canvasWidth) / conf.cols
-    const yRect = (this.y * conf.canvasHeight) / conf.rows
+    const yRect = (this.y * conf.canvasHeight) / (conf.rows + 1)
     this.p5.rect(xRect, yRect, colWidth, rowHeight)
     if (this.joined || this.freespace) {
-      this.p5.textSize(conf.canvasWidth / conf.rows / textSizeHardcodedFactor)
+      this.p5.textSize(
+        conf.canvasWidth / (conf.rows + 1) / textSizeHardcodedFactor
+      )
       this.p5.textStyle(this.p5.BOLD)
       this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
       this.p5.fill(this.fill)
       this.p5.noStroke()
-      const yPos = (this.y * conf.canvasHeight) / conf.rows
+      const yPos = (this.y * conf.canvasHeight) / (conf.rows + 1)
       this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
     }
   }
