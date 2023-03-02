@@ -47,7 +47,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   }
   const canvasWidth = parseInt(parentStyle.width)
   const canvasHeight = parseInt(parentStyle.height)
-  conf = new Config(5, 5, canvasWidth, canvasHeight, canvasParent)
+  conf = new Config(p5, 5, 5, canvasWidth, canvasHeight, canvasParent)
   const myCanvas = p5
     .createCanvas(canvasWidth, canvasHeight)
     .parent(canvasParentRef)
@@ -58,7 +58,11 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
 
 const draw = (p5: p5Types) => {
   p5.background('#fff')
+  p5.push()
+  p5.translate(0, conf.canvasHeight / 6)
   spaces.forEach((space) => space.draw())
+  p5.pop()
+  conf.draw()
 }
 
 const windowResized = (p5: p5Types) => {
@@ -79,16 +83,23 @@ const getConf = (): Config => {
 
 const resetBingoCard = (
   p5: p5Types,
-  passedUsername: string = '',
-  passedStage: string = ''
+  passedUsername: string | null = null,
+  passedStage: string | null = null
 ) => {
   let username, stage
-  if (passedUsername === '') {
-    username = (localStorage.getItem('bingoUsername') ?? '').toLowerCase()
+  if (passedUsername === null) {
+    username = JSON.parse(
+      localStorage.getItem('bingoUsername') ?? '""'
+    ).toLowerCase()
+    console.log('localStorage username', username)
   } else username = passedUsername
-  if (passedStage === '') {
-    stage = (localStorage.getItem('bingostage') ?? '').toLowerCase()
+  conf.setUsername(username)
+  if (passedStage === null) {
+    stage = JSON.parse(localStorage.getItem('bingoStage') ?? '""')
+    console.log('localStorage stage', stage)
   } else stage = passedStage
+  conf.setStage(stage)
+
   let newSeed = 0
   if (username !== '' && stage !== '') {
     for (let i = 0; i < stage.length; i++) {
@@ -102,7 +113,6 @@ const resetBingoCard = (
         (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
     }
     if (newSeed === 0) newSeed = 1
-    // console.log(stage, username, 'joined with newSeed', newSeed)
   }
   spaces = []
   const shuffledSpaceText = shuffleArray(p5, spaceText, newSeed).slice(0)
