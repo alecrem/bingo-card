@@ -4,34 +4,6 @@ import { shuffleArray } from '@/p5js/misc'
 
 let spaces: CardSpace[] = []
 let conf: Config
-const spaceText = [
-  'Elden Ring',
-  'Concritud',
-  'Kusoge',
-  'Puta Nintendo',
-  'Puta Sony',
-  'Mario',
-  'Llamada Jacobo',
-  'Game Gear',
-  'Bub & Bob Quest',
-  'Redoble de tambores',
-  'Game Boy',
-  'Por lo que Sega',
-  'FREE SPACE',
-  'Mega Drive',
-  'Master System',
-  'Sega Rally',
-  'Triple A',
-  'Vampire Survivor',
-  'Kirby',
-  'Balan',
-  'Yakuza',
-  'Spectrum',
-  "Club D'Angelo",
-  'Gameflus',
-  'Sonic'
-]
-let seed = 0
 
 const setup = (p5: p5Types, canvasParentRef: Element) => {
   document.querySelector('body')?.addEventListener('joinevent', (event) => {
@@ -86,17 +58,15 @@ const resetBingoCard = (
   passedUsername: string | null = null,
   passedStage: string | null = null
 ) => {
-  let username, stage
+  let username: string, stage: string
   if (passedUsername === null) {
     username = JSON.parse(
       localStorage.getItem('bingoUsername') ?? '""'
     ).toLowerCase()
-    console.log('localStorage username', username)
   } else username = passedUsername
   conf.setUsername(username)
   if (passedStage === null) {
     stage = JSON.parse(localStorage.getItem('bingoStage') ?? '""')
-    console.log('localStorage stage', stage)
   } else stage = passedStage
   conf.setStage(stage)
 
@@ -114,13 +84,31 @@ const resetBingoCard = (
     }
     if (newSeed === 0) newSeed = 1
   }
+  const stageData = JSON.parse(
+    localStorage.getItem('stageData') ?? '""'
+  ).filter((row: any) => {
+    return row.stage == stage
+  })[0]
+  let seed = 0
+  let spaceText = []
   spaces = []
+  if (stageData !== undefined) {
+    spaceText = Object.entries(stageData)
+      .map((elem: any) => {
+        if (elem[0].indexOf('space') === 0) return elem[1]
+      })
+      .filter((elem) => {
+        if (elem !== undefined) return elem
+      })
+  }
   const shuffledSpaceText = shuffleArray(p5, spaceText, newSeed).slice(0)
-  shuffledSpaceText.forEach((text, index) => {
-    const x = index % conf.cols
-    const y = ~~(index / conf.rows)
-    spaces.push(new CardSpace(p5, text, x, y, newSeed !== 0))
-  })
+  if (shuffledSpaceText.length >= 25) {
+    shuffledSpaceText.forEach((text, index) => {
+      const x = index % conf.cols
+      const y = ~~(index / conf.rows)
+      spaces.push(new CardSpace(p5, text, x, y, newSeed !== 0))
+    })
+  }
   seed = newSeed
 }
 
