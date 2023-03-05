@@ -10,6 +10,7 @@ interface StageData {
   }
 }
 export default function Home() {
+  const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? 'Bingo Card'
   const { getStages } = useAirtable()
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState<number>()
@@ -46,7 +47,7 @@ export default function Home() {
       <Box>
         <Container maxW="container.sm" mt="2em" mb="2em">
           <Heading as="h1" size="4xl" mb="0.5em">
-            Gamerah Bingo <JoinButton funct={joinBingo} />
+            {siteTitle} <JoinButton funct={joinBingo} />
           </Heading>
         </Container>
         <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
