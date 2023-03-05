@@ -51,7 +51,7 @@ export default function Home() {
           </Heading>
         </Container>
         <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
-          <BingoCard />
+          {username && <BingoCard />}
         </Container>
       </Box>
     </>
