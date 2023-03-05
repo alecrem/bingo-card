@@ -8,6 +8,12 @@ First, install the project's npm depencencies:
 yarn
 ```
 
+Make your personal copy of `.env.sample` and fill it with your site's name and the information needed for the site to access your Airtable table ([create a personal access token](https://airtable.com/create/tokens)):
+
+```bash
+cp .env.sample .env.local
+```
+
 Then, run the development server:
 
 ```bash
