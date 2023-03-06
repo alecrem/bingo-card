@@ -10,6 +10,9 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
     const customEvent = event as CustomEvent
     resetBingoCard(p5, customEvent.detail.username, customEvent.detail.stage)
   })
+  document.querySelector('body')?.addEventListener('saveEvent', (event) => {
+    p5.save('bingocard.png')
+  })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
   if (canvasParentRef.parentElement) {

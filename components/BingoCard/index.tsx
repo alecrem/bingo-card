@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import { AspectRatio } from '@chakra-ui/react'
+import { AspectRatio, Button } from '@chakra-ui/react'
 import { useMounted } from '@/hooks/useMounted'
 import { setup, draw, windowResized } from '@/p5js/sketch'
 
@@ -12,12 +12,25 @@ if (typeof window !== 'undefined') {
 export function BingoCard() {
   const isMounted = useMounted()
 
+  const handleSave = () => {
+    if (document === undefined || document === null) return
+    const saveEvent = new Event('saveEvent', {
+      bubbles: true,
+      cancelable: true,
+      composed: false
+    })
+    document.querySelector('body')?.dispatchEvent(saveEvent)
+  }
+
   return (
     <>
       {isMounted && (
-        <AspectRatio maxW="container.sm" ratio={5 / 6}>
-          <Sketch setup={setup} draw={draw} windowResized={windowResized} />
-        </AspectRatio>
+        <>
+          <AspectRatio maxW="container.sm" ratio={5 / 6}>
+            <Sketch setup={setup} draw={draw} windowResized={windowResized} />
+          </AspectRatio>
+          <Button onClick={handleSave}>Save PNG</Button>
+        </>
       )}
     </>
   )
