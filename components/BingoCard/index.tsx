@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import { AspectRatio, Button } from '@chakra-ui/react'
 import { useMounted } from '@/hooks/useMounted'
-import { setup, draw, windowResized } from '@/p5js/sketch'
+import { setup, draw, windowResized, mousePressed } from '@/p5js/sketch'
 
 const importFunction = () => import('react-p5').then((mod) => mod.default)
 let Sketch: any = null
@@ -27,7 +27,12 @@ export function BingoCard() {
       {isMounted && (
         <>
           <AspectRatio maxW="container.sm" ratio={5 / 6}>
-            <Sketch setup={setup} draw={draw} windowResized={windowResized} />
+            <Sketch
+              setup={setup}
+              draw={draw}
+              windowResized={windowResized}
+              mousePressed={mousePressed}
+            />
           </AspectRatio>
           <Button onClick={handleSave}>Save PNG</Button>
         </>

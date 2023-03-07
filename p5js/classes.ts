@@ -68,9 +68,9 @@ class CardSpace {
   draw() {
     const textSizeHardcodedFactor = 5
     const conf = getConf()
-    if (this.isHovering(conf)) {
-      this.p5.fill('#ddd')
-    } else if (this.freespace) {
+    if (this.collisionCheck(conf, this.p5.mouseX, this.p5.mouseY)) {
+      this.p5.fill('#ffc')
+    } else if (this.freespace || this.checked) {
       this.p5.fill('#fe4')
     } else {
       this.p5.fill('#fff')
@@ -92,15 +92,19 @@ class CardSpace {
     const yPos = (this.y * conf.canvasHeight) / (conf.rows + 1)
     this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
   }
-  isHovering(conf: Config): boolean {
+  collisionCheck(conf: Config, x: number, y: number): boolean {
     if (
-      this.p5.mouseX >= (this.x * conf.canvasWidth) / conf.cols &&
-      this.p5.mouseX < ((this.x + 1) * conf.canvasWidth) / conf.cols &&
-      this.p5.mouseY >= ((this.y + 1) * conf.canvasHeight) / (conf.rows + 1) &&
-      this.p5.mouseY < ((this.y + 2) * conf.canvasHeight) / (conf.rows + 1)
+      x >= (this.x * conf.canvasWidth) / conf.cols &&
+      x < ((this.x + 1) * conf.canvasWidth) / conf.cols &&
+      y >= ((this.y + 1) * conf.canvasHeight) / (conf.rows + 1) &&
+      y < ((this.y + 2) * conf.canvasHeight) / (conf.rows + 1)
     )
       return true
     return false
+  }
+  toggleCheck() {
+    this.checked = !this.checked
+    console.log('checked', this)
   }
 }
 
