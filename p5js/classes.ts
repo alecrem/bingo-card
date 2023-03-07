@@ -58,53 +58,78 @@ class CardSpace {
   checked: boolean = false
   freespace: boolean = false
   fill: string = '#000'
+  conf: Config
   constructor(p5: p5Types, text: string, x: number, y: number) {
     this.p5 = p5
     this.text = text
     this.x = x
     this.y = y
     this.freespace = this.text.toUpperCase() == 'FREE SPACE'
+    this.conf = getConf()
   }
   draw() {
+    // Update the conf in case the canvas has been resized
+    this.conf = getConf()
     const textSizeHardcodedFactor = 5
-    const conf = getConf()
-    if (this.collisionCheck(conf, this.p5.mouseX, this.p5.mouseY)) {
+    if (this.collisionCheck(this.p5.mouseX, this.p5.mouseY)) {
       this.p5.fill('#ffc')
-    } else if (this.freespace || this.checked) {
-      this.p5.fill('#fe4')
+    } else if (this.freespace) {
+      this.p5.fill('#ffc')
     } else {
       this.p5.fill('#fff')
     }
     this.p5.stroke(0)
-    const colWidth = conf.canvasWidth / conf.cols
-    // Using conf.rows + 1 to account for the header row
-    const rowHeight = conf.canvasHeight / (conf.rows + 1)
-    const xRect = (this.x * conf.canvasWidth) / conf.cols
-    const yRect = (this.y * conf.canvasHeight) / (conf.rows + 1)
+    this.p5.strokeWeight(this.conf.canvasWidth / 400)
+
+    const colWidth = this.conf.canvasWidth / this.conf.cols
+    // Using this.conf.rows + 1 to account for the header row
+    const rowHeight = this.conf.canvasHeight / (this.conf.rows + 1)
+    const xRect = (this.x * this.conf.canvasWidth) / this.conf.cols
+    const yRect = (this.y * this.conf.canvasHeight) / (this.conf.rows + 1)
     this.p5.rect(xRect, yRect, colWidth, rowHeight)
+    if (this.freespace || this.checked) {
+      this.drawCheck()
+    }
     this.p5.textSize(
-      conf.canvasWidth / (conf.rows + 1) / textSizeHardcodedFactor
+      this.conf.canvasWidth / (this.conf.rows + 1) / textSizeHardcodedFactor
     )
     this.p5.textStyle(this.p5.BOLD)
     this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
     this.p5.fill(this.fill)
     this.p5.noStroke()
-    const yPos = (this.y * conf.canvasHeight) / (conf.rows + 1)
+    const yPos = (this.y * this.conf.canvasHeight) / (this.conf.rows + 1)
     this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
   }
-  collisionCheck(conf: Config, x: number, y: number): boolean {
+  drawCheck() {
+    this.p5.stroke('#f88')
+    this.p5.strokeWeight(this.conf.canvasWidth / 50)
+    const offset = this.conf.canvasWidth / 30
+    const spaceSize = this.conf.canvasWidth / this.conf.cols
+    this.p5.line(
+      this.x * spaceSize + offset,
+      this.y * spaceSize + offset,
+      this.x * spaceSize + spaceSize - offset,
+      this.y * spaceSize + spaceSize - offset
+    )
+    this.p5.line(
+      this.x * spaceSize + spaceSize - offset,
+      this.y * spaceSize + offset,
+      this.x * spaceSize + offset,
+      this.y * spaceSize + spaceSize - offset
+    )
+  }
+  collisionCheck(x: number, y: number): boolean {
     if (
-      x >= (this.x * conf.canvasWidth) / conf.cols &&
-      x < ((this.x + 1) * conf.canvasWidth) / conf.cols &&
-      y >= ((this.y + 1) * conf.canvasHeight) / (conf.rows + 1) &&
-      y < ((this.y + 2) * conf.canvasHeight) / (conf.rows + 1)
+      x >= (this.x * this.conf.canvasWidth) / this.conf.cols &&
+      x < ((this.x + 1) * this.conf.canvasWidth) / this.conf.cols &&
+      y >= ((this.y + 1) * this.conf.canvasHeight) / (this.conf.rows + 1) &&
+      y < ((this.y + 2) * this.conf.canvasHeight) / (this.conf.rows + 1)
     )
       return true
     return false
   }
   toggleCheck() {
     this.checked = !this.checked
-    console.log('checked', this)
   }
 }
 
