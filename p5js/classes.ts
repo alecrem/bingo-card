@@ -55,28 +55,22 @@ class CardSpace {
   text: string
   x: number
   y: number
-  joined: boolean
   checked: boolean = false
   freespace: boolean = false
   fill: string = '#000'
-  constructor(
-    p5: p5Types,
-    text: string,
-    x: number,
-    y: number,
-    joined: boolean
-  ) {
+  constructor(p5: p5Types, text: string, x: number, y: number) {
     this.p5 = p5
     this.text = text
     this.x = x
     this.y = y
-    this.joined = joined
     this.freespace = this.text.toUpperCase() == 'FREE SPACE'
   }
   draw() {
     const textSizeHardcodedFactor = 5
     const conf = getConf()
-    if (this.freespace) {
+    if (this.isHovering(conf)) {
+      this.p5.fill('#ddd')
+    } else if (this.freespace) {
       this.p5.fill('#fe4')
     } else {
       this.p5.fill('#fff')
@@ -88,17 +82,25 @@ class CardSpace {
     const xRect = (this.x * conf.canvasWidth) / conf.cols
     const yRect = (this.y * conf.canvasHeight) / (conf.rows + 1)
     this.p5.rect(xRect, yRect, colWidth, rowHeight)
-    if (this.joined || this.freespace) {
-      this.p5.textSize(
-        conf.canvasWidth / (conf.rows + 1) / textSizeHardcodedFactor
-      )
-      this.p5.textStyle(this.p5.BOLD)
-      this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
-      this.p5.fill(this.fill)
-      this.p5.noStroke()
-      const yPos = (this.y * conf.canvasHeight) / (conf.rows + 1)
-      this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
-    }
+    this.p5.textSize(
+      conf.canvasWidth / (conf.rows + 1) / textSizeHardcodedFactor
+    )
+    this.p5.textStyle(this.p5.BOLD)
+    this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
+    this.p5.fill(this.fill)
+    this.p5.noStroke()
+    const yPos = (this.y * conf.canvasHeight) / (conf.rows + 1)
+    this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
+  }
+  isHovering(conf: Config): boolean {
+    if (
+      this.p5.mouseX >= (this.x * conf.canvasWidth) / conf.cols &&
+      this.p5.mouseX < ((this.x + 1) * conf.canvasWidth) / conf.cols &&
+      this.p5.mouseY >= ((this.y + 1) * conf.canvasHeight) / (conf.rows + 1) &&
+      this.p5.mouseY < ((this.y + 2) * conf.canvasHeight) / (conf.rows + 1)
+    )
+      return true
+    return false
   }
 }
 

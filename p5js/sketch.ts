@@ -109,7 +109,7 @@ const resetBingoCard = (
     shuffledSpaceText.forEach((text, index) => {
       const x = index % conf.cols
       const y = ~~(index / conf.rows)
-      spaces.push(new CardSpace(p5, text, x, y, newSeed !== 0))
+      spaces.push(new CardSpace(p5, text, x, y))
     })
   }
   seed = newSeed
