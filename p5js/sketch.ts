@@ -52,6 +52,18 @@ const windowResized = (p5: p5Types) => {
   p5.resizeCanvas(conf.canvasWidth, conf.canvasHeight)
 }
 
+const mousePressed = (p5: p5Types) => {
+  const clickedSpaces: CardSpace[] = spaces.filter((space) => {
+    return (
+      p5.mouseX >= (space.x * conf.canvasWidth) / conf.cols &&
+      p5.mouseX < ((space.x + 1) * conf.canvasWidth) / conf.cols &&
+      p5.mouseY >= ((space.y + 1) * conf.canvasHeight) / (conf.rows + 1) &&
+      p5.mouseY < ((space.y + 2) * conf.canvasHeight) / (conf.rows + 1)
+    )
+  })
+  if (clickedSpaces.length > 0) clickedSpaces[0].toggleCheck()
+}
+
 const getConf = (): Config => {
   return conf
 }
@@ -92,7 +104,6 @@ const resetBingoCard = (
   ).filter((row: any) => {
     return row.stage == stage
   })[0]
-  let seed = 0
   let spaceText = []
   spaces = []
   if (stageData !== undefined) {
@@ -109,10 +120,9 @@ const resetBingoCard = (
     shuffledSpaceText.forEach((text, index) => {
       const x = index % conf.cols
       const y = ~~(index / conf.rows)
-      spaces.push(new CardSpace(p5, text, x, y, newSeed !== 0))
+      spaces.push(new CardSpace(p5, text, x, y))
     })
   }
-  seed = newSeed
 }
 
-export { setup, draw, windowResized, getConf }
+export { setup, draw, windowResized, mousePressed, getConf }
