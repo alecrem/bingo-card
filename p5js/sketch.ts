@@ -52,7 +52,7 @@ const windowResized = (p5: p5Types) => {
   p5.resizeCanvas(conf.canvasWidth, conf.canvasHeight)
 }
 
-const mousePressed = (p5: p5Types) => {
+const mouseClicked = (p5: p5Types) => {
   const clickedSpaces: CardSpace[] = spaces.filter((space) => {
     return (
       p5.mouseX >= (space.x * conf.canvasWidth) / conf.cols &&
@@ -125,4 +125,4 @@ const resetBingoCard = (
   }
 }
 
-export { setup, draw, windowResized, mousePressed, getConf }
+export { setup, draw, windowResized, mouseClicked, getConf }
