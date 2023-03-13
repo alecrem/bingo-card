@@ -5,7 +5,7 @@ const useAirtable = () => {
       const resJson = await res.json()
 
       if (resJson.status === 'success') {
-        return resJson.key
+        return resJson.data
       }
 
       throw resJson.error

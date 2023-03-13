@@ -23,9 +23,7 @@ export default function Home() {
   }
   useEffect(() => {
     const runGetStages = async () => {
-      const stages = (await getStages()).map((row: any) => {
-        return row.fields
-      })
+      const stages = await getStages()
       setStageData(stages)
       localStorage.setItem('stageData', JSON.stringify(stages))
     }

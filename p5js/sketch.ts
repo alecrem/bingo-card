@@ -99,11 +99,7 @@ const resetBingoCard = (
     }
     if (newSeed === 0) newSeed = 1
   }
-  const stageData = JSON.parse(
-    localStorage.getItem('stageData') ?? '""'
-  ).filter((row: any) => {
-    return row.stage == stage
-  })[0]
+  const stageData = JSON.parse(localStorage.getItem('stageData') ?? '""')[stage]
   let spaceText = []
   spaces = []
   if (stageData !== undefined) {
