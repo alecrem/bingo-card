@@ -100,7 +100,7 @@ export function JoinButton(props: { funct: Function }) {
           <ModalCloseButton />
           <ModalBody>
             <FormControl isInvalid={isErrorUsername}>
-              <FormLabel>Tu Twitter</FormLabel>
+              <FormLabel>Tu nombre de usuario</FormLabel>
               <Input
                 type="email"
                 value={username}
@@ -108,11 +108,13 @@ export function JoinButton(props: { funct: Function }) {
               />
               {!isErrorUsername ? (
                 <FormHelperText>
-                  Pon tu usuario de Twitter sin la arroba
+                  Pon tu nombre de usuario sin la arroba (Twitter, Discord,
+                  Mastodon, etc.)
                 </FormHelperText>
               ) : (
                 <FormErrorMessage>
-                  Pon tu usuario de Twitter sin la arroba
+                  Pon tu nombre de usuario sin la arroba (Twitter, Discord,
+                  Mastodon, etc.)
                 </FormErrorMessage>
               )}
             </FormControl>

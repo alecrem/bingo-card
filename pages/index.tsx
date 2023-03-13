@@ -6,16 +6,16 @@ import { useAirtable } from '@/hooks/useAirtable'
 
 interface StageData {
   fields: {
-    stage: number
+    stage: string
   }
 }
 export default function Home() {
   const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? 'Bingo Card'
   const { getStages } = useAirtable()
   const [username, setUsername] = useState('')
-  const [stage, setStage] = useState<number>()
+  const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
-  const joinBingo = (joinData: { username: string; stage: number }) => {
+  const joinBingo = (joinData: { username: string; stage: string }) => {
     setUsername(joinData.username)
     localStorage.setItem('bingoUsername', JSON.stringify(joinData.username))
     setStage(joinData.stage)
@@ -28,6 +28,10 @@ export default function Home() {
       localStorage.setItem('stageData', JSON.stringify(stages))
     }
     runGetStages()
+    const bingoUsername = localStorage.getItem('bingoUsername')
+    if (bingoUsername !== null) setUsername(bingoUsername)
+    const bingoStage = localStorage.getItem('bingoStage')
+    if (bingoStage !== null) setStage(bingoStage)
   }, [])
   useEffect(() => {
     if (document === undefined || document === null) return

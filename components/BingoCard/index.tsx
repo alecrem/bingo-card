@@ -34,7 +34,9 @@ export function BingoCard() {
               mouseClicked={mouseClicked}
             />
           </AspectRatio>
-          <Button onClick={handleSave}>Save PNG</Button>
+          <Button onClick={handleSave} mt="1em">
+            Guardar PNG
+          </Button>
         </>
       )}
     </>
