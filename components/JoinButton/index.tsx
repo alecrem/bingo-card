@@ -22,7 +22,7 @@ export function JoinButton(props: { funct: Function }) {
   const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
-  const [stageIds, setStageIds] = useState<Number[]>([])
+  const [stageIds, setStageIds] = useState<string[]>([])
 
   useEffect(() => {
     const initialUsername: string = JSON.parse(
@@ -37,12 +37,13 @@ export function JoinButton(props: { funct: Function }) {
 
   useEffect(() => {
     if (!isOpen) return
-    const ids = JSON.parse(localStorage.getItem('stageData') ?? '').map(
-      (row: any) => {
-        return row.stage
-      }
+    const ids = Object.entries(
+      JSON.parse(localStorage.getItem('stageData') ?? '')
     )
-    setStageIds(ids)
+    const ret = ids.map((elem) => {
+      return elem[0]
+    })
+    setStageIds(ret)
   }, [isOpen])
 
   const handleUsernameChange = (event: ChangeEvent) => {
