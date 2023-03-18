@@ -26,6 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   let ret: AllStagesData = {}
   stages.forEach((stageElem) => {
+    if (stageElem.length < 1) return
     let stage: StageData = {}
     const stageDataArray: [string, string][] = stageElem.filter((elem) => {
       return elem[0].indexOf('space') === 0
