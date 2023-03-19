@@ -16,8 +16,10 @@ import {
   Input,
   Select
 } from '@chakra-ui/react'
+import { useJoined } from '@/hooks/useJoined'
 
 export function JoinButton(props: { funct: Function }) {
+  const isJoined = useJoined()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
@@ -25,15 +27,8 @@ export function JoinButton(props: { funct: Function }) {
   const [stageIds, setStageIds] = useState<string[]>([])
 
   useEffect(() => {
-    const initialUsername: string = JSON.parse(
-      localStorage.getItem('bingoUsername') ?? '""'
-    ).toLowerCase()
-    if (typeof initialUsername !== 'string' || initialUsername.length < 1) {
-      setJoined(false)
-      return
-    }
-    setJoined(true)
-  }, [])
+    setJoined(isJoined)
+  }, [isJoined])
 
   useEffect(() => {
     if (!isOpen) return
