@@ -117,9 +117,14 @@ export function JoinButton(props: { funct: Function }) {
               <FormLabel>Episodio</FormLabel>
               <Select placeholder="Elige uno" onChange={handleStageChange}>
                 {stageIds.length > 0 &&
-                  stageIds.map((id) => {
-                    return <option key={id.toString()}>{id.toString()}</option>
-                  })}
+                  stageIds
+                    .sort()
+                    .reverse()
+                    .map((id) => {
+                      return (
+                        <option key={id.toString()}>{id.toString()}</option>
+                      )
+                    })}
               </Select>
               {!isErrorStage ? (
                 <FormHelperText>
