@@ -28,9 +28,11 @@ export default function Home() {
       localStorage.setItem('stageData', JSON.stringify(stages))
     }
     runGetStages()
-    const bingoUsername = localStorage.getItem('bingoUsername')
+    const bingoUsername = JSON.parse(
+      localStorage.getItem('bingoUsername') ?? ''
+    )
     if (bingoUsername !== null) setUsername(bingoUsername)
-    const bingoStage = localStorage.getItem('bingoStage')
+    const bingoStage = JSON.parse(localStorage.getItem('bingoStage') ?? '')
     if (bingoStage !== null) setStage(bingoStage)
   }, [])
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function Home() {
           </Heading>
         </Container>
         <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
-          {username && <BingoCard />}
+          {username.length > 0 && <BingoCard />}
         </Container>
       </Box>
     </>
