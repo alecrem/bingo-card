@@ -29,10 +29,10 @@ export default function Home() {
     }
     runGetStages()
     const bingoUsername = JSON.parse(
-      localStorage.getItem('bingoUsername') ?? ''
+      localStorage.getItem('bingoUsername') ?? '{}'
     )
     if (bingoUsername !== null) setUsername(bingoUsername)
-    const bingoStage = JSON.parse(localStorage.getItem('bingoStage') ?? '')
+    const bingoStage = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
     if (bingoStage !== null) setStage(bingoStage)
   }, [])
   useEffect(() => {
