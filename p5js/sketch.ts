@@ -75,13 +75,12 @@ const resetBingoCard = (
 ) => {
   let username: string, stage: string
   if (passedUsername === null) {
-    username = JSON.parse(
-      localStorage.getItem('bingoUsername') ?? '""'
-    ).toLowerCase()
+    username = JSON.parse(localStorage.getItem('bingoUsername') ?? '{}')
+    username = username.toLowerCase()
   } else username = passedUsername
   conf.setUsername(username)
   if (passedStage === null) {
-    stage = JSON.parse(localStorage.getItem('bingoStage') ?? '""')
+    stage = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
   } else stage = passedStage
   conf.setStage(stage)
 

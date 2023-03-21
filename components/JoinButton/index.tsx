@@ -33,7 +33,7 @@ export function JoinButton(props: { funct: Function }) {
   useEffect(() => {
     if (!isOpen) return
     const ids = Object.entries(
-      JSON.parse(localStorage.getItem('stageData') ?? '')
+      JSON.parse(localStorage.getItem('stageData') ?? '{}')
     )
     const ret = ids.map((elem) => {
       return elem[0]
