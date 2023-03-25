@@ -20,28 +20,27 @@ import { useJoined } from '@/hooks/useJoined'
 export function PasswordButton(props: { funct: Function }) {
   const isJoined = useJoined()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [joined, setJoined] = useState(isJoined)
   const [password, setPassword] = useState('')
   const [stage, setStage] = useState('')
 
-  const updateStage = () => {
-    const initialStage: string = JSON.parse(
-      localStorage.getItem('bingoStage') ?? '""'
-    )
-    setStage(initialStage)
-  }
   useEffect(() => {
-    updateStage()
+    if (document === undefined || document === null) return
+    document.querySelector('body')?.addEventListener('joinevent', (event) => {
+      const customEvent = event as CustomEvent
+      if (customEvent.detail.stage.length > 1)
+        setStage(customEvent.detail.stage)
+      else setStage('')
+      setJoined(true)
+    })
   }, [])
-  useEffect(() => {
-    updateStage()
-  }, [isJoined])
 
   useEffect(() => {
     if (!isOpen) return
     const ids = Object.entries(
       JSON.parse(localStorage.getItem('stageData') ?? '')
     )
-    const ret = ids.map((elem) => {
+    ids.forEach((elem) => {
       return elem[0]
     })
   }, [isOpen])
@@ -50,12 +49,6 @@ export function PasswordButton(props: { funct: Function }) {
     const input = event.target as HTMLInputElement
     if (input.value != null) {
       setPassword(input.value)
-    }
-  }
-  const handleStageChange = (event: ChangeEvent) => {
-    const input = event.target as HTMLInputElement
-    if (input.value != null) {
-      setStage(input.value)
     }
   }
   const transferValue = (event: React.MouseEvent<Element, MouseEvent>) => {

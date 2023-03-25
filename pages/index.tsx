@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Box, Container, Heading } from '@chakra-ui/react'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
+import { PasswordButton } from '@/components/PasswordButton'
 import { useAirtable } from '@/hooks/useAirtable'
 
 interface StageData {
@@ -15,12 +16,18 @@ export default function Home() {
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
+
   const joinBingo = (joinData: { username: string; stage: string }) => {
     setUsername(joinData.username)
     localStorage.setItem('bingoUsername', JSON.stringify(joinData.username))
     setStage(joinData.stage)
     localStorage.setItem('bingoStage', JSON.stringify(joinData.stage))
   }
+
+  const passwordReturned = (joinData: { username: string; stage: string }) => {
+    console.log('passwordReturned')
+  }
+
   useEffect(() => {
     const runGetStages = async () => {
       const stages = await getStages()
@@ -51,7 +58,8 @@ export default function Home() {
       <Box>
         <Container maxW="container.sm" mt="2em" mb="2em">
           <Heading as="h1" size="4xl" mb="0.5em">
-            {siteTitle} <JoinButton funct={joinBingo} />
+            {siteTitle} <JoinButton funct={joinBingo} />{' '}
+            <PasswordButton funct={passwordReturned} />
           </Heading>
         </Container>
         <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
