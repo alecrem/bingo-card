@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+// This hook only tells you whether the client had already joined on page load
+// To watch join/unjoin changes during usage, add a event listener for 'joinevent'
 const useJoined = () => {
   const [joined, setJoined] = useState(false)
   useEffect(() => {

@@ -12,7 +12,7 @@ interface StageData {
 }
 export default function Home() {
   const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? 'Bingo Card'
-  const { getStages } = useAirtable()
+  const { getStages, checkPassword } = useAirtable()
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
@@ -24,8 +24,16 @@ export default function Home() {
     localStorage.setItem('bingoStage', JSON.stringify(joinData.stage))
   }
 
-  const passwordReturned = (joinData: { username: string; stage: string }) => {
-    console.log('passwordReturned')
+  const passwordReturned = async (passwordData: {
+    password: string
+    stage: string
+  }) => {
+    const argsPassword = passwordData.password
+    // We have this `replace` just because our stage names
+    // (podcast episode titles) look like this: "A2 #8"
+    const argsStage = passwordData.stage.replace(' #', '-')
+    const ret = await checkPassword(argsPassword, argsStage)
+    console.log('checkPassword returned!', ret)
   }
 
   useEffect(() => {

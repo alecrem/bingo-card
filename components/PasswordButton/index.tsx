@@ -54,7 +54,8 @@ export function PasswordButton(props: { funct: Function }) {
   const transferValue = (event: React.MouseEvent<Element, MouseEvent>) => {
     event.preventDefault()
     const val = {
-      password
+      password,
+      stage
     }
     props.funct(val)
     onClose()
