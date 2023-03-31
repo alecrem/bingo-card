@@ -33,7 +33,11 @@ export default function Home() {
     // (podcast episode titles) look like this: "A2 #8"
     const argsStage = passwordData.stage.replace(' #', '-')
     const ret = await checkPassword(argsPassword, argsStage)
-    console.log('checkPassword returned!', ret)
+    if (document === undefined || document === null) return
+    const revealEvent = new CustomEvent('revealEvent', {
+      detail: ret
+    })
+    document.querySelector('body')?.dispatchEvent(revealEvent)
   }
 
   useEffect(() => {
