@@ -128,6 +128,12 @@ class CardSpace {
       return true
     return false
   }
+  check() {
+    this.checked = true
+  }
+  unCheck() {
+    this.checked = false
+  }
   toggleCheck() {
     this.checked = !this.checked
   }

@@ -13,6 +13,14 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   document.querySelector('body')?.addEventListener('saveEvent', (event) => {
     p5.save('bingocard.png')
   })
+  document.querySelector('body')?.addEventListener('revealEvent', (event) => {
+    const customEvent = event as CustomEvent
+    const calledSpaces: string[] = customEvent.detail
+    spaces.forEach((space) => {
+      if (calledSpaces.includes(space.text)) space.check()
+      else space.unCheck()
+    })
+  })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
   if (canvasParentRef.parentElement) {
