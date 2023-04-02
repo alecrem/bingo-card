@@ -15,7 +15,11 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   })
   document.querySelector('body')?.addEventListener('revealEvent', (event) => {
     const customEvent = event as CustomEvent
-    console.log('revealEvent', customEvent.detail)
+    const calledSpaces: string[] = customEvent.detail
+    spaces.forEach((space) => {
+      if (calledSpaces.includes(space.text)) space.check()
+      else space.unCheck()
+    })
   })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration

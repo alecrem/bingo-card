@@ -1,9 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Airtable from 'airtable'
 
-type StageData = {
-  [key: string]: string
-}
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     res.status(405).send({ message: 'Only POST requests allowed' })
@@ -18,7 +15,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   const stageName = input[0].replace('-', ' #')
   const password = input[1]
-  console.log('stageName', stageName, 'password', password)
 
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_API_KEY
@@ -29,7 +25,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const ret = await table
       .select({ filterByFormula: `stage = "${stageName}"` })
       .all()
-    console.log('ret', ret)
     return ret
   }
 
@@ -42,15 +37,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return
     }
 
-    console.log('fields', fields)
     return Object.entries(fields).filter(([key, value]) => {
-      return key.indexOf('called') === 0
+      return key.indexOf('called') === 0 || key.indexOf('space') === 0
     }) as [string, string][]
   })
 
-  console.log('stages', stages)
-  let stage: StageData = {}
+  let calledSpaces: string[] = []
   stages.forEach((stageElem) => {
+    if (stageElem === undefined) return
     const stageDataArray: [string, string][] | undefined = stageElem?.filter(
       (elem) => {
         return elem[0].indexOf('called') === 0
@@ -58,12 +52,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     )
     if (stageDataArray === undefined) return
     stageDataArray.forEach((elem: string[]) => {
-      stage[elem[0]] = elem[1]
+      const spaceNumber = elem[0].substring('called'.length)
+      const spaceIndex: string = 'space' + spaceNumber
+      const relevantSpace = stageElem.filter((elem) => elem[0] == spaceIndex)
+      calledSpaces.push(relevantSpace[0][1])
     })
   })
   res.status(200).json({
     status: 'success',
-    data: stage
+    data: calledSpaces
   })
 }
 
