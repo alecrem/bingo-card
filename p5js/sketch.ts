@@ -17,6 +17,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
     const customEvent = event as CustomEvent
     const calledSpaces: string[] = customEvent.detail
     spaces.forEach((space) => {
+      space.lock()
       if (calledSpaces.includes(space.text)) space.check()
       else space.unCheck()
     })
@@ -69,7 +70,8 @@ const mouseClicked = (p5: p5Types) => {
       p5.mouseY < ((space.y + 2) * conf.canvasHeight) / (conf.rows + 1)
     )
   })
-  if (clickedSpaces.length > 0) clickedSpaces[0].toggleCheck()
+  if (clickedSpaces.length > 0 && !clickedSpaces[0].locked)
+    clickedSpaces[0].toggleCheck()
 }
 
 const getConf = (): Config => {
