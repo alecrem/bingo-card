@@ -102,7 +102,8 @@ class CardSpace {
     this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
   }
   drawCheck() {
-    this.p5.stroke('#f88')
+    if (this.locked) this.p5.stroke('#daa')
+    else this.p5.stroke('#f88')
     this.p5.strokeWeight(this.conf.canvasWidth / 50)
     const offset = this.conf.canvasWidth / 30
     const spaceSize = this.conf.canvasWidth / this.conf.cols
