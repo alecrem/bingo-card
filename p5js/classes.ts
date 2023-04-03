@@ -57,6 +57,7 @@ class CardSpace {
   y: number
   checked: boolean = false
   freespace: boolean = false
+  locked: boolean = false
   fill: string = '#000'
   conf: Config
   constructor(p5: p5Types, text: string, x: number, y: number) {
@@ -127,6 +128,9 @@ class CardSpace {
     )
       return true
     return false
+  }
+  lock() {
+    this.locked = true
   }
   check() {
     this.checked = true
