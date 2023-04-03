@@ -72,7 +72,7 @@ class CardSpace {
     // Update the conf in case the canvas has been resized
     this.conf = getConf()
     const textSizeHardcodedFactor = 5
-    if (this.collisionCheck(this.p5.mouseX, this.p5.mouseY)) {
+    if (this.collisionCheck(this.p5.mouseX, this.p5.mouseY) && !this.locked) {
       this.p5.fill('#ffc')
     } else if (this.freespace) {
       this.p5.fill('#ffc')
