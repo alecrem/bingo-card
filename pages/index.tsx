@@ -52,7 +52,17 @@ export default function Home() {
     )
     if (bingoUsername !== null) setUsername(bingoUsername)
     const bingoStage = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
-    if (bingoStage !== null) setStage(bingoStage)
+    const stages = Object.keys(
+      JSON.parse(localStorage.getItem('stageData') ?? '{}')
+    )
+    if (bingoStage !== null && stages.includes(bingoStage)) {
+      setStage(bingoStage)
+    } else {
+      setUsername('')
+      setStage('')
+      localStorage.setItem('bingoUsername', '""')
+      localStorage.setItem('bingoStage', '""')
+    }
   }, [])
   useEffect(() => {
     if (document === undefined || document === null) return
