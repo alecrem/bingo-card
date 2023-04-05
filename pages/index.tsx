@@ -45,6 +45,9 @@ export default function Home() {
       const stages = await getStages()
       setStageData(stages)
       localStorage.setItem('stageData', JSON.stringify(stages))
+      if (document === undefined || document === null) return
+      const getStagesEvent = new Event('getStagesEvent')
+      document.querySelector('body')?.dispatchEvent(getStagesEvent)
     }
     runGetStages()
     const bingoUsername = JSON.parse(

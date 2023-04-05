@@ -24,7 +24,15 @@ export function JoinButton(props: { funct: Function }) {
   const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
+  const [dataLoaded, setDataLoaded] = useState<boolean>()
   const [stageIds, setStageIds] = useState<string[]>([])
+
+  useEffect(() => {
+    if (document === undefined || document === null) return
+    document.querySelector('body')?.addEventListener('getStagesEvent', (() => {
+      setDataLoaded(true)
+    }) as EventListener)
+  }, [])
 
   useEffect(() => {
     setJoined(isJoined)
@@ -82,7 +90,7 @@ export function JoinButton(props: { funct: Function }) {
   return (
     <>
       {!joined ? (
-        <Button colorScheme="blue" onClick={onOpen}>
+        <Button colorScheme="blue" onClick={onOpen} disabled={!dataLoaded}>
           Apuntarse
         </Button>
       ) : (
