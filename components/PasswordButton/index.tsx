@@ -67,12 +67,12 @@ export function PasswordButton(props: { funct: Function }) {
   return (
     <>
       <Button colorScheme="blue" onClick={onOpen}>
-        Desbloquear
+        Revelar respuestas
       </Button>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Desbloquear respuestas</ModalHeader>
+          <ModalHeader>Revelar respuestas</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isInvalid={isErrorPassword}>
@@ -95,7 +95,7 @@ export function PasswordButton(props: { funct: Function }) {
               colorScheme="blue"
               onClick={transferValue}
             >
-              Desbloquear
+              Revelar
             </Button>
           </ModalFooter>
         </ModalContent>

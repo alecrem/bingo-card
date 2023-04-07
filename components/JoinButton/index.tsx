@@ -94,7 +94,7 @@ export function JoinButton(props: { funct: Function }) {
           Apuntarse
         </Button>
       ) : (
-        <Button onClick={unJoin}>Desapuntarse</Button>
+        <Button onClick={unJoin}>Desapuntarse o cambiar episodio</Button>
       )}
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
