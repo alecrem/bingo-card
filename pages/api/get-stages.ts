@@ -14,7 +14,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const table = base(process.env.AIRTABLE_TABLE_NAME ?? '')
 
   async function getStages() {
-    return await table.select({}).all()
+    return await table
+      .select({
+        sort: [{ field: 'id', direction: 'desc' }]
+      })
+      .all()
   }
 
   const stages = (await getStages()).map((elem) => {
