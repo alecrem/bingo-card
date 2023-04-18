@@ -40,10 +40,10 @@ export function JoinButton(props: { funct: Function }) {
 
   useEffect(() => {
     if (!isOpen) return
-    const ids = Object.entries(
+    const stageData = Object.entries(
       JSON.parse(localStorage.getItem('stageData') ?? '{}')
     )
-    const ret = ids.map((elem) => {
+    const ret = stageData.map((elem) => {
       return elem[0]
     })
     setStageIds(ret)
@@ -125,14 +125,9 @@ export function JoinButton(props: { funct: Function }) {
               <FormLabel>Episodio</FormLabel>
               <Select placeholder="Elige uno" onChange={handleStageChange}>
                 {stageIds.length > 0 &&
-                  stageIds
-                    .sort()
-                    .reverse()
-                    .map((id) => {
-                      return (
-                        <option key={id.toString()}>{id.toString()}</option>
-                      )
-                    })}
+                  stageIds.map((id) => {
+                    return <option key={id.toString()}>{id.toString()}</option>
+                  })}
               </Select>
               {!isErrorStage ? (
                 <FormHelperText>
