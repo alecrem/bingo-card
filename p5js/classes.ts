@@ -144,4 +144,22 @@ class CardSpace {
   }
 }
 
-export { Config, CardSpace }
+type CardSpaceCoordinates = {
+  x: number
+  y: number
+}
+class Line {
+  p5: p5Types
+  cardSpaces: CardSpaceCoordinates[]
+  completed = false
+  constructor(p5: p5Types, cardSpaces: CardSpaceCoordinates[]) {
+    this.p5 = p5
+    this.cardSpaces = cardSpaces
+  }
+  draw() {
+    if (!this.completed) return
+    // console.log('Line completed?', this.completed, this.cardSpaces)
+  }
+}
+
+export { Config, CardSpace, Line }
