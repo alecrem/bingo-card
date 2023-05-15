@@ -49,6 +49,7 @@ class Config {
       this.canvasHeight / 7 / 2 + textSize / 3
     )
     const completedLines = this.lines.filter((line) => line.completed).length
+    if (completedLines < 1) return
     let completedLinesText = completedLines === 1 ? ' line' : ' lines'
     this.p5.textSize(textSize / 2)
     this.p5.textAlign(this.p5.LEFT, this.p5.CENTER)
