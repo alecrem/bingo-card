@@ -11,7 +11,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   document.querySelector('body')?.addEventListener('joinevent', (event) => {
     const customEvent = event as CustomEvent
     resetBingoCard(p5, customEvent.detail.username, customEvent.detail.stage)
-    lines = linesData.map((line) => new Line(p5, line.lineSpaces))
+    resetLines(p5)
   })
   document.querySelector('body')?.addEventListener('saveEvent', (event) => {
     p5.save('bingocard.png')
@@ -164,4 +164,7 @@ const resetBingoCard = (
   }
 }
 
+const resetLines = (p5: p5Types) => {
+  lines = linesData.map((line) => new Line(p5, line.lineSpaces))
+}
 export { setup, draw, windowResized, mouseClicked, getConf }
