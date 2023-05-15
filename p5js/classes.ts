@@ -7,6 +7,7 @@ class Config {
   stage: string | null
   rows: number
   cols: number
+  lines: Line[] = []
   canvasWidth: number
   canvasHeight: number
   canvasParent: Element
@@ -46,6 +47,15 @@ class Config {
       '@' + this.username + ' ' + this.stage,
       this.canvasWidth / 2,
       this.canvasHeight / 7 / 2 + textSize / 3
+    )
+    const completedLines = this.lines.filter((line) => line.completed).length
+    let completedLinesText = completedLines === 1 ? ' line' : ' lines'
+    this.p5.textSize(textSize / 2)
+    this.p5.textAlign(this.p5.LEFT, this.p5.CENTER)
+    this.p5.text(
+      completedLines + completedLinesText,
+      0,
+      this.canvasHeight / 4 / 2 + textSize / 3
     )
   }
 }

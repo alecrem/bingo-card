@@ -4,7 +4,6 @@ import { shuffleArray } from '@/p5js/misc'
 import { linesData } from '@/data/lines'
 
 let spaces: CardSpace[] = []
-let lines: Line[] = []
 let conf: Config
 
 const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -50,14 +49,9 @@ const draw = (p5: p5Types) => {
   p5.push()
   p5.translate(0, conf.canvasHeight / 6)
   spaces.forEach((space) => space.draw())
-  lines.forEach((line) => line.draw())
+  conf.lines.forEach((line) => line.draw())
   p5.pop()
   conf.draw()
-  const completedLines = lines.filter((line) => line.completed).length
-  p5.noStroke()
-  p5.textStyle(p5.BOLD)
-  p5.textAlign(p5.CENTER, p5.CENTER)
-  p5.text(completedLines, 20, 40)
 }
 
 const windowResized = (p5: p5Types) => {
@@ -88,7 +82,7 @@ const mouseClicked = (p5: p5Types) => {
 }
 
 const checkForCompletedLines = () => {
-  lines.forEach((line) => {
+  conf.lines.forEach((line) => {
     if (line.completed) return
     let completionPossible = true
     line.cardSpaces.forEach((lineSpace) => {
@@ -166,6 +160,6 @@ const resetBingoCard = (
 }
 
 const resetLines = (p5: p5Types) => {
-  lines = linesData.map((line) => new Line(p5, line.lineSpaces))
+  conf.lines = linesData.map((line) => new Line(p5, line.lineSpaces))
 }
 export { setup, draw, windowResized, mouseClicked, getConf }
