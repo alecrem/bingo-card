@@ -1,6 +1,7 @@
 import p5Types from 'p5'
-import { Config, CardSpace } from '@/p5js/classes'
+import { Config, CardSpace, Line } from '@/p5js/classes'
 import { shuffleArray } from '@/p5js/misc'
+import { linesData } from '@/data/lines'
 
 let spaces: CardSpace[] = []
 let conf: Config
@@ -9,6 +10,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   document.querySelector('body')?.addEventListener('joinevent', (event) => {
     const customEvent = event as CustomEvent
     resetBingoCard(p5, customEvent.detail.username, customEvent.detail.stage)
+    resetLines(p5)
   })
   document.querySelector('body')?.addEventListener('saveEvent', (event) => {
     p5.save('bingocard.png')
@@ -21,6 +23,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
       if (calledSpaces.includes(space.text)) space.check()
       else space.unCheck()
     })
+    checkForCompletedLines()
   })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
@@ -38,6 +41,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   myCanvas.id('asjalk')
 
   resetBingoCard(p5)
+  resetLines(p5)
 }
 
 const draw = (p5: p5Types) => {
@@ -45,6 +49,7 @@ const draw = (p5: p5Types) => {
   p5.push()
   p5.translate(0, conf.canvasHeight / 6)
   spaces.forEach((space) => space.draw())
+  conf.lines.forEach((line) => line.draw())
   p5.pop()
   conf.draw()
 }
@@ -70,8 +75,35 @@ const mouseClicked = (p5: p5Types) => {
       p5.mouseY < ((space.y + 2) * conf.canvasHeight) / (conf.rows + 1)
     )
   })
-  if (clickedSpaces.length > 0 && !clickedSpaces[0].locked)
+  if (clickedSpaces.length > 0 && !clickedSpaces[0].locked) {
     clickedSpaces[0].toggleCheck()
+    checkForCompletedLines()
+  }
+}
+
+const checkForCompletedLines = () => {
+  conf.lines.forEach((line) => {
+    let completionPossible = true
+    line.cardSpaces.forEach((lineSpace) => {
+      if (!completionPossible) {
+        line.completed = false
+        return
+      }
+      const checkedSpaces = spaces.filter(
+        (cardSpace) =>
+          cardSpace.x == lineSpace.x &&
+          cardSpace.y == lineSpace.y &&
+          cardSpace.checked
+      )
+      if (checkedSpaces.length < 1) {
+        completionPossible = false
+        line.completed = false
+        return
+      }
+    })
+    if (!completionPossible) return
+    line.completed = true
+  })
 }
 
 const getConf = (): Config => {
@@ -130,4 +162,7 @@ const resetBingoCard = (
   }
 }
 
+const resetLines = (p5: p5Types) => {
+  conf.lines = linesData.map((line) => new Line(p5, line.lineSpaces))
+}
 export { setup, draw, windowResized, mouseClicked, getConf }

@@ -7,6 +7,7 @@ class Config {
   stage: string | null
   rows: number
   cols: number
+  lines: Line[] = []
   canvasWidth: number
   canvasHeight: number
   canvasParent: Element
@@ -47,6 +48,16 @@ class Config {
       this.canvasWidth / 2,
       this.canvasHeight / 7 / 2 + textSize / 3
     )
+    const completedLines = this.lines.filter((line) => line.completed).length
+    if (completedLines < 1) return
+    let completedLinesText = completedLines === 1 ? ' line' : ' lines'
+    this.p5.textSize(textSize / 2)
+    this.p5.textAlign(this.p5.LEFT, this.p5.CENTER)
+    this.p5.text(
+      completedLines + completedLinesText,
+      0,
+      this.canvasHeight / 4 / 2 + textSize / 3
+    )
   }
 }
 
@@ -66,6 +77,7 @@ class CardSpace {
     this.x = x
     this.y = y
     this.freespace = this.text.toUpperCase() == 'FREE SPACE'
+    if (this.freespace) this.checked = true
     this.conf = getConf()
   }
   draw() {
@@ -144,4 +156,22 @@ class CardSpace {
   }
 }
 
-export { Config, CardSpace }
+type CardSpaceCoordinates = {
+  x: number
+  y: number
+}
+class Line {
+  p5: p5Types
+  cardSpaces: CardSpaceCoordinates[]
+  completed = false
+  constructor(p5: p5Types, cardSpaces: CardSpaceCoordinates[]) {
+    this.p5 = p5
+    this.cardSpaces = cardSpaces
+  }
+  draw() {
+    if (!this.completed) return
+    // console.log('Line completed?', this.completed, this.cardSpaces)
+  }
+}
+
+export { Config, CardSpace, Line }
