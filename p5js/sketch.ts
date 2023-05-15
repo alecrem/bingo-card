@@ -1,6 +1,7 @@
 import p5Types from 'p5'
 import { Config, CardSpace, Line } from '@/p5js/classes'
 import { shuffleArray } from '@/p5js/misc'
+import { linesData } from '@/data/lines'
 
 let spaces: CardSpace[] = []
 let lines: Line[] = []
@@ -10,7 +11,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
   document.querySelector('body')?.addEventListener('joinevent', (event) => {
     const customEvent = event as CustomEvent
     resetBingoCard(p5, customEvent.detail.username, customEvent.detail.stage)
-    resetLines(p5)
+    lines = linesData.map((line) => new Line(p5, line.lineSpaces))
   })
   document.querySelector('body')?.addEventListener('saveEvent', (event) => {
     p5.save('bingocard.png')
@@ -163,52 +164,4 @@ const resetBingoCard = (
   }
 }
 
-const resetLines = (p5: p5Types) => {
-  lines = []
-  lines.push(
-    new Line(p5, [
-      { x: 0, y: 0 },
-      { x: 0, y: 1 },
-      { x: 0, y: 2 },
-      { x: 0, y: 3 },
-      { x: 0, y: 4 }
-    ])
-  )
-  lines.push(
-    new Line(p5, [
-      { x: 1, y: 0 },
-      { x: 1, y: 1 },
-      { x: 1, y: 2 },
-      { x: 1, y: 3 },
-      { x: 1, y: 4 }
-    ])
-  )
-  lines.push(
-    new Line(p5, [
-      { x: 2, y: 0 },
-      { x: 2, y: 1 },
-      { x: 2, y: 2 },
-      { x: 2, y: 3 },
-      { x: 2, y: 4 }
-    ])
-  )
-  lines.push(
-    new Line(p5, [
-      { x: 3, y: 0 },
-      { x: 3, y: 1 },
-      { x: 3, y: 2 },
-      { x: 3, y: 3 },
-      { x: 3, y: 4 }
-    ])
-  )
-  lines.push(
-    new Line(p5, [
-      { x: 4, y: 0 },
-      { x: 4, y: 1 },
-      { x: 4, y: 2 },
-      { x: 4, y: 3 },
-      { x: 4, y: 4 }
-    ])
-  )
-}
 export { setup, draw, windowResized, mouseClicked, getConf }
