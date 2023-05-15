@@ -83,10 +83,12 @@ const mouseClicked = (p5: p5Types) => {
 
 const checkForCompletedLines = () => {
   conf.lines.forEach((line) => {
-    if (line.completed) return
     let completionPossible = true
     line.cardSpaces.forEach((lineSpace) => {
-      if (!completionPossible) return
+      if (!completionPossible) {
+        line.completed = false
+        return
+      }
       const checkedSpaces = spaces.filter(
         (cardSpace) =>
           cardSpace.x == lineSpace.x &&
@@ -95,6 +97,7 @@ const checkForCompletedLines = () => {
       )
       if (checkedSpaces.length < 1) {
         completionPossible = false
+        line.completed = false
         return
       }
     })
