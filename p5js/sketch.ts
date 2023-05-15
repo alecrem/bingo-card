@@ -24,6 +24,7 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
       if (calledSpaces.includes(space.text)) space.check()
       else space.unCheck()
     })
+    checkForCompletedLines()
   })
   const canvasParent = canvasParentRef
   let parentStyle: CSSStyleDeclaration
