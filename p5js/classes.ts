@@ -66,6 +66,7 @@ class CardSpace {
     this.x = x
     this.y = y
     this.freespace = this.text.toUpperCase() == 'FREE SPACE'
+    if (this.freespace) this.checked = true
     this.conf = getConf()
   }
   draw() {
