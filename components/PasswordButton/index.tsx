@@ -1,6 +1,7 @@
 import { ChangeEvent, useState, useEffect } from 'react'
 import {
   Button,
+  Spinner,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -17,7 +18,11 @@ import {
 } from '@chakra-ui/react'
 import { useJoined } from '@/hooks/useJoined'
 
-export function PasswordButton(props: { funct: Function }) {
+export function PasswordButton(props: {
+  passwordReturned: Function
+  isLoading: boolean
+}) {
+  const { passwordReturned, isLoading } = props
   const isJoined = useJoined()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(isJoined)
@@ -57,7 +62,7 @@ export function PasswordButton(props: { funct: Function }) {
       password,
       stage
     }
-    props.funct(val)
+    passwordReturned(val)
     onClose()
   }
 
@@ -66,8 +71,14 @@ export function PasswordButton(props: { funct: Function }) {
   if (stage === '') return <></>
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen}>
+      <Button colorScheme="blue" onClick={onOpen} isDisabled={isLoading}>
         Revelar respuestas
+        {isLoading && (
+          <>
+            &nbsp;
+            <Spinner />
+          </>
+        )}
       </Button>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
