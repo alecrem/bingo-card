@@ -1,6 +1,7 @@
 import { ChangeEvent, useState, useEffect } from 'react'
 import {
   Button,
+  Spinner,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -92,6 +93,12 @@ export function JoinButton(props: { funct: Function }) {
       {!joined ? (
         <Button colorScheme="blue" onClick={onOpen} isDisabled={!dataLoaded}>
           Apuntarse
+          {!dataLoaded && (
+            <>
+              &nbsp;
+              <Spinner />
+            </>
+          )}
         </Button>
       ) : (
         <Button onClick={unJoin}>Desapuntarse o cambiar episodio</Button>
