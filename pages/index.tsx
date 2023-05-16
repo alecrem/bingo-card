@@ -16,6 +16,7 @@ export default function Home() {
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const joinBingo = (joinData: { username: string; stage: string }) => {
     setUsername(joinData.username)
@@ -32,7 +33,9 @@ export default function Home() {
     // We have this `replace` just because our stage names
     // (podcast episode titles) look like this: "A2 #8"
     const argsStage = passwordData.stage.replace(' #', '-')
+    setIsLoading(true)
     const ret = await checkPassword(argsPassword, argsStage)
+    setIsLoading(false)
     if (document === undefined || document === null) return
     const revealEvent = new CustomEvent('revealEvent', {
       detail: ret
@@ -84,7 +87,10 @@ export default function Home() {
         <Container maxW="container.sm" mt="2em" mb="2em">
           <Heading as="h1" size="4xl" mb="0.5em">
             {siteTitle} <JoinButton funct={joinBingo} />{' '}
-            <PasswordButton funct={passwordReturned} />
+            <PasswordButton
+              passwordReturned={passwordReturned}
+              isLoading={isLoading}
+            />
           </Heading>
         </Container>
         <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
