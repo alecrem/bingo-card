@@ -47,6 +47,7 @@ export default function Home() {
         toast({
           title: 'Palabra clave incorrecta',
           status: 'warning',
+          duration: 9000,
           isClosable: true
         })
         return
@@ -54,12 +55,18 @@ export default function Home() {
       toast({
         title: 'Error al acceder a la API',
         status: 'error',
+        duration: 9000,
         isClosable: true
       })
       return
     }
 
     if (document === undefined || document === null) return
+    toast({
+      title: 'Palabra clave correcta',
+      status: 'success',
+      isClosable: true
+    })
     const revealEvent = new CustomEvent('revealEvent', {
       detail: ret.data
     })
