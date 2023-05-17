@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Container, Heading } from '@chakra-ui/react'
+import { Box, Container, Heading, useToast } from '@chakra-ui/react'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
 import { PasswordButton } from '@/components/PasswordButton'
@@ -17,6 +17,7 @@ export default function Home() {
   const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const toast = useToast()
 
   const joinBingo = (joinData: { username: string; stage: string }) => {
     setUsername(joinData.username)
@@ -41,7 +42,22 @@ export default function Home() {
     setIsLoading(false)
 
     // No correct spaces were returned
-    if (!ret || ret.status >= 400) return
+    if (!ret || ret.status >= 400) {
+      if (ret.status === 403) {
+        toast({
+          title: 'Palabra clave incorrecta',
+          status: 'warning',
+          isClosable: true
+        })
+        return
+      }
+      toast({
+        title: 'Error al acceder a la API',
+        status: 'error',
+        isClosable: true
+      })
+      return
+    }
 
     if (document === undefined || document === null) return
     const revealEvent = new CustomEvent('revealEvent', {
