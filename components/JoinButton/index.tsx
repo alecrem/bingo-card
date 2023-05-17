@@ -92,10 +92,11 @@ export function JoinButton(props: { funct: Function }) {
     <>
       {!joined ? (
         <Button colorScheme="blue" onClick={onOpen} isDisabled={!dataLoaded}>
-          Apuntarse
-          {!dataLoaded && (
+          {dataLoaded ? (
+            <>Apuntarse</>
+          ) : (
             <>
-              &nbsp;
+              Cargando episodios &nbsp;
               <Spinner />
             </>
           )}
