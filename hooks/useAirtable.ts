@@ -23,10 +23,10 @@ const useAirtable = () => {
       const resJson = await res.json()
 
       if (resJson.status === 'success') {
-        return resJson.data
+        return { status: res.status, data: resJson.data }
       }
 
-      throw resJson.error
+      return { status: res.status }
     } catch (error: any) {
       throw new Error(error)
     }

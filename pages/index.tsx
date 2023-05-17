@@ -34,11 +34,18 @@ export default function Home() {
     // (podcast episode titles) look like this: "A2 #8"
     const argsStage = passwordData.stage.replace(' #', '-')
     setIsLoading(true)
-    const ret = await checkPassword(argsPassword, argsStage)
+    const ret: { status: number; data?: any } | undefined = await checkPassword(
+      argsPassword,
+      argsStage
+    )
     setIsLoading(false)
+
+    // No correct spaces were returned
+    if (!ret || ret.status >= 400) return
+
     if (document === undefined || document === null) return
     const revealEvent = new CustomEvent('revealEvent', {
-      detail: ret
+      detail: ret.data
     })
     document.querySelector('body')?.dispatchEvent(revealEvent)
   }
