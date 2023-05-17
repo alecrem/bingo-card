@@ -100,7 +100,7 @@ class CardSpace {
     const xRect = (this.x * this.conf.canvasWidth) / this.conf.cols
     const yRect = (this.y * this.conf.canvasHeight) / (this.conf.rows + 1)
     this.p5.rect(xRect, yRect, colWidth, rowHeight)
-    if (this.freespace || this.checked) {
+    if (this.checked) {
       this.drawCheck()
     }
     this.p5.textSize(
@@ -152,6 +152,7 @@ class CardSpace {
     this.checked = false
   }
   toggleCheck() {
+    if (this.freespace) return
     this.checked = !this.checked
   }
 }
