@@ -28,12 +28,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return ret
   }
 
+  let returned = false
   const stages = (await getStages()).map((elem) => {
     const fields = elem.fields
 
     // Send a 403 response if the password is wrong
     if (password !== fields.password) {
       res.status(403).send({ message: 'Unauthorized' })
+      returned = true
       return
     }
 
@@ -41,6 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return key.indexOf('called') === 0 || key.indexOf('space') === 0
     }) as [string, string][]
   })
+  if (returned) return
 
   let calledSpaces: string[] = []
   stages.forEach((stageElem) => {
