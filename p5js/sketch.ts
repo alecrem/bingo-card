@@ -163,6 +163,8 @@ const resetBingoCard = (
 }
 
 const resetLines = (p5: p5Types) => {
-  conf.lines = linesData.map((line) => new Line(p5, line.lineSpaces))
+  conf.lines = linesData.map(
+    (line) => new Line(p5, line.lineSpaces, line.lineType, line.lineIndex)
+  )
 }
 export { setup, draw, windowResized, mouseClicked, getConf }
