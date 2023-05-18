@@ -164,14 +164,48 @@ type CardSpaceCoordinates = {
 class Line {
   p5: p5Types
   cardSpaces: CardSpaceCoordinates[]
+  lineType: string
+  lineIndex: number
   completed = false
-  constructor(p5: p5Types, cardSpaces: CardSpaceCoordinates[]) {
+  constructor(
+    p5: p5Types,
+    cardSpaces: CardSpaceCoordinates[],
+    lineType: string,
+    lineIndex: number
+  ) {
     this.p5 = p5
     this.cardSpaces = cardSpaces
+    this.lineType = lineType
+    this.lineIndex = lineIndex
   }
   draw() {
     if (!this.completed) return
-    // console.log('Line completed?', this.completed, this.cardSpaces)
+    this.p5.stroke('#f88')
+    this.p5.strokeWeight(this.p5.width / 50)
+    const offset = this.p5.width / 30
+    const spaceSize = this.p5.width / 5
+    if (this.lineType === 'vertical') {
+      this.p5.line(
+        this.cardSpaces[0].x * spaceSize + spaceSize / 2,
+        this.cardSpaces[0].y * spaceSize + offset,
+        this.cardSpaces[4].x * spaceSize + spaceSize / 2,
+        this.cardSpaces[4].y * spaceSize + spaceSize - offset
+      )
+    } else if (this.lineType === 'horizontal') {
+      this.p5.line(
+        this.cardSpaces[0].x * spaceSize + offset,
+        this.cardSpaces[0].y * spaceSize + spaceSize / 2,
+        this.cardSpaces[4].x * spaceSize + spaceSize - offset,
+        this.cardSpaces[4].y * spaceSize + spaceSize / 2
+      )
+    } else if (this.lineType === 'diagonal') {
+      this.p5.line(
+        this.cardSpaces[0].x * spaceSize + offset,
+        this.cardSpaces[0].y * spaceSize + offset,
+        this.cardSpaces[4].x * spaceSize + spaceSize - offset,
+        this.cardSpaces[4].y * spaceSize + spaceSize - offset
+      )
+    }
   }
 }
 
