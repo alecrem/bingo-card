@@ -16,12 +16,14 @@ import {
   FormHelperText,
   Input
 } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
 
 export function PasswordButton(props: {
   passwordReturned: Function
   isLoading: boolean
 }) {
+  const { t } = useTranslation('common')
   const { passwordReturned, isLoading } = props
   const isJoined = useJoined()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -72,7 +74,7 @@ export function PasswordButton(props: {
   return (
     <>
       <Button colorScheme="blue" onClick={onOpen} isDisabled={isLoading}>
-        Revelar respuestas
+        {t('reveal.reveal-button')}
         {isLoading && (
           <>
             &nbsp;
@@ -83,19 +85,21 @@ export function PasswordButton(props: {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Revelar respuestas</ModalHeader>
+          <ModalHeader>{t('reveal.form.header')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isInvalid={isErrorPassword}>
-              <FormLabel>Palabra clave del episodio {stage}</FormLabel>
+              <FormLabel>
+                {t('reveal.form.password.label', { stage: stage })}
+              </FormLabel>
               <Input value={password} onChange={handlePasswordChange} />
               {!isErrorPassword ? (
                 <FormHelperText>
-                  Introduce la palabra clave que damos al final del episodio
+                  {t('reveal.form.password.message')}
                 </FormHelperText>
               ) : (
                 <FormErrorMessage>
-                  Introduce la palabra clave que damos al final del episodio
+                  {t('reveal.form.password.message')}
                 </FormErrorMessage>
               )}
             </FormControl>
@@ -106,7 +110,7 @@ export function PasswordButton(props: {
               colorScheme="blue"
               onClick={transferValue}
             >
-              Revelar
+              {t('reveal.form.submit-button')}
             </Button>
           </ModalFooter>
         </ModalContent>

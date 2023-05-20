@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Box, Container, Heading, useToast } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
 import { PasswordButton } from '@/components/PasswordButton'
@@ -11,7 +12,8 @@ interface StageData {
   }
 }
 export default function Home() {
-  const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? 'Bingo Card'
+  const { t } = useTranslation('common')
+  const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? t('site-title')
   const { getStages, checkPassword } = useAirtable()
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
@@ -45,7 +47,7 @@ export default function Home() {
     if (!ret || ret.status >= 400) {
       if (ret.status === 403) {
         toast({
-          title: 'Palabra clave incorrecta',
+          title: t('toast.wrong-password'),
           status: 'warning',
           duration: 9000,
           isClosable: true
@@ -53,7 +55,7 @@ export default function Home() {
         return
       }
       toast({
-        title: 'Error al acceder a la API',
+        title: t('toast.api-error'),
         status: 'error',
         duration: 9000,
         isClosable: true
@@ -63,7 +65,7 @@ export default function Home() {
 
     if (document === undefined || document === null) return
     toast({
-      title: 'Palabra clave correcta',
+      title: t('toast.correct-password'),
       status: 'success',
       isClosable: true
     })
