@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Airtable from 'airtable'
+import { getStageByTitle } from '@/lib/airtable'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -13,23 +13,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).send({ message: 'Bad request' })
     return
   }
-  const stageName = input[0].replace('-', ' #')
+  const stageTitle = input[0].replace('-', ' #')
   const password = input[1]
 
-  const base = new Airtable({
-    apiKey: process.env.AIRTABLE_API_KEY
-  }).base(process.env.AIRTABLE_BASE_ID ?? '')
-  const table = base(process.env.AIRTABLE_TABLE_NAME ?? '')
-
-  async function getStages() {
-    const ret = await table
-      .select({ filterByFormula: `stage = "${stageName}"` })
-      .all()
-    return ret
-  }
-
   let returned = false
-  const stages = (await getStages()).map((elem) => {
+  const stages = (await getStageByTitle(stageTitle)).map((elem) => {
     const fields = elem.fields
 
     // Send a 403 response if the password is wrong

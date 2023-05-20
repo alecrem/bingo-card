@@ -1,4 +1,4 @@
-import Airtable, { Table } from 'airtable'
+import Airtable from 'airtable'
 type StageData = {
   [key: string]: string
 }
@@ -25,5 +25,11 @@ const getStages = async () => {
     .all()
 }
 
-export { getTable, getStages }
+const getStageByTitle = async (stageTitle: string) => {
+  return await getTable()
+    .select({ filterByFormula: `stage = "${stageTitle}"` })
+    .all()
+}
+
+export { getTable, getStages, getStageByTitle }
 export type { StageData, AllStagesData }
