@@ -17,9 +17,11 @@ import {
   Input,
   Select
 } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
 
 export function JoinButton(props: { funct: Function }) {
+  const { t } = useTranslation('common')
   const isJoined = useJoined()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(false)
@@ -93,25 +95,25 @@ export function JoinButton(props: { funct: Function }) {
       {!joined ? (
         <Button colorScheme="blue" onClick={onOpen} isDisabled={!dataLoaded}>
           {dataLoaded ? (
-            <>Apuntarse</>
+            <>{t('join.join-button')}</>
           ) : (
             <>
-              Cargando episodios &nbsp;
+              {t('join.loading-episodes')} &nbsp;
               <Spinner />
             </>
           )}
         </Button>
       ) : (
-        <Button onClick={unJoin}>Desapuntarse o cambiar episodio</Button>
+        <Button onClick={unJoin}>{t('join.unjoin-button')}</Button>
       )}
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Apuntarse al bingo</ModalHeader>
+          <ModalHeader>{t('join.form.header')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isInvalid={isErrorUsername}>
-              <FormLabel>Tu nombre de usuario</FormLabel>
+              <FormLabel>{t('join.form.username.label')}</FormLabel>
               <Input
                 type="email"
                 value={username}
@@ -119,18 +121,16 @@ export function JoinButton(props: { funct: Function }) {
               />
               {!isErrorUsername ? (
                 <FormHelperText>
-                  Pon tu nombre de usuario sin la arroba (Twitter, Discord,
-                  Mastodon, etc.)
+                  {t('join.form.username.message')}
                 </FormHelperText>
               ) : (
                 <FormErrorMessage>
-                  Pon tu nombre de usuario sin la arroba (Twitter, Discord,
-                  Mastodon, etc.)
+                  {t('join.form.username.message')}
                 </FormErrorMessage>
               )}
             </FormControl>
             <FormControl isInvalid={isErrorStage}>
-              <FormLabel>Episodio</FormLabel>
+              <FormLabel>{t('join.form.stage.label')}</FormLabel>
               <Select placeholder="Elige uno" onChange={handleStageChange}>
                 {stageIds.length > 0 &&
                   stageIds.map((id) => {
@@ -138,12 +138,10 @@ export function JoinButton(props: { funct: Function }) {
                   })}
               </Select>
               {!isErrorStage ? (
-                <FormHelperText>
-                  Elige el número del programa en el que participas
-                </FormHelperText>
+                <FormHelperText>{t('join.form.stage.message')}</FormHelperText>
               ) : (
                 <FormErrorMessage>
-                  Elige el número del programa en el que participas
+                  {t('join.form.stage.message')}
                 </FormErrorMessage>
               )}
             </FormControl>
@@ -154,7 +152,7 @@ export function JoinButton(props: { funct: Function }) {
               colorScheme="blue"
               onClick={transferValue}
             >
-              Apuntarse
+              {t('join.form.submit-button')}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -1,0 +1,39 @@
+{
+  "site-title": "Bingo Card",
+  "toast": {
+    "correct-password": "Palabra clave correcta",
+    "wrong-password": "Palabra clave incorrecta",
+    "api-error": "Error al acceder a la API"
+  },
+  "join": {
+    "join-button": "Apuntarse",
+    "loading-episodes": "Cargando episodios",
+    "unjoin-button": "Desapuntarse o cambiar episodio",
+    "form": {
+      "header": "Apuntarse al bingo",
+      "username": {
+        "label": "Tu nombre de usuario",
+        "message": "Pon tu nombre de usuario sin la arroba (Twitter, Discord, Mastodon, etc.)"
+      },
+      "stage": {
+        "label": "Episodio",
+        "message": "Elige el número del programa en el que participas"
+      },
+      "submit-button": "Apuntarse"
+    }
+  },
+  "reveal": {
+    "reveal-button": "Revelar respuestas",
+    "form": {
+      "header": "Revelar respuestas",
+      "password": {
+        "label": "Palabra clave del episodio {{stage}}",
+        "message": "Introduce la palabra clave que damos al final del episodio"
+      },
+      "submit-button": "Revelar"
+    }
+  },
+  "bingocard": {
+    "save-png": "Guardar PNG"
+  }
+}

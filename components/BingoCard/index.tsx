@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import { AspectRatio, Button } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import { useMounted } from '@/hooks/useMounted'
 import { setup, draw, windowResized, mouseClicked } from '@/p5js/sketch'
 
@@ -10,6 +11,7 @@ if (typeof window !== 'undefined') {
 }
 
 export function BingoCard() {
+  const { t } = useTranslation('common')
   const isMounted = useMounted()
 
   const handleSave = () => {
@@ -35,7 +37,7 @@ export function BingoCard() {
             />
           </AspectRatio>
           <Button onClick={handleSave} mt="1em">
-            Guardar PNG
+            {t('bingocard.save-png')}
           </Button>
         </>
       )}
