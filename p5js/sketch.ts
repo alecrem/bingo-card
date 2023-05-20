@@ -144,7 +144,7 @@ const resetBingoCard = (
   let spaceText = []
   spaces = []
   if (stageData !== undefined) {
-    spaceText = Object.entries(stageData)
+    spaceText = Object.entries(stageData.stage)
       .map((elem: any) => {
         if (elem[0].indexOf('space') === 0) return elem[1]
       })

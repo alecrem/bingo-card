@@ -1,30 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Airtable from 'airtable'
+import { getStages } from '@/lib/airtable'
+import type { StageData, AllStagesData } from '@/lib/airtable'
 
-type StageData = {
-  [key: string]: string
-}
-type AllStagesData = {
-  [key: string]: StageData
-}
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const base = new Airtable({
-    apiKey: process.env.AIRTABLE_API_KEY
-  }).base(process.env.AIRTABLE_BASE_ID ?? '')
-  const table = base(process.env.AIRTABLE_TABLE_NAME ?? '')
-
-  async function getStages() {
-    return await table
-      .select({
-        sort: [{ field: 'id', direction: 'desc' }]
-      })
-      .all()
-  }
-
   const stages = (await getStages()).map((elem) => {
     const fields = elem.fields
     return Object.entries(fields).filter(([key, value]) => {
-      return key.indexOf('space') === 0 || key === 'stage'
+      return key.indexOf('space') === 0 || key === 'stage' || key === 'airdate'
     }) as [string, string][]
   })
 
@@ -32,6 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   stages.forEach((stageElem) => {
     if (stageElem.length < 1) return
     let stage: StageData = {}
+    const airdate: string = stageElem.filter((elem) => {
+      return elem[0] == 'airdate'
+    })[0][1]
     const stageDataArray: [string, string][] = stageElem.filter((elem) => {
       return elem[0].indexOf('space') === 0
     })
@@ -41,7 +26,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const stageName = stageElem.filter((elem) => {
       return elem[0].indexOf('stage') === 0
     })[0][1]
-    ret[stageName] = stage
+    ret[stageName] = {
+      title: stageName,
+      airdate: airdate,
+      stage: stage
+    }
   })
   res.status(200).json({
     status: 'success',
