@@ -199,11 +199,19 @@ class Line {
         this.cardSpaces[4].y * spaceSize + spaceSize / 2
       )
     } else if (this.lineType === 'diagonal') {
+      let xOffset0 = offset
+      let xOffset4 = spaceSize - offset
+      let yOffset0 = offset
+      let yOffset4 = spaceSize - offset
+      if (this.lineIndex > 0) {
+        xOffset0 = spaceSize - offset
+        xOffset4 = offset
+      }
       this.p5.line(
-        this.cardSpaces[0].x * spaceSize + offset,
-        this.cardSpaces[0].y * spaceSize + offset,
-        this.cardSpaces[4].x * spaceSize + spaceSize - offset,
-        this.cardSpaces[4].y * spaceSize + spaceSize - offset
+        this.cardSpaces[0].x * spaceSize + xOffset0,
+        this.cardSpaces[0].y * spaceSize + yOffset0,
+        this.cardSpaces[4].x * spaceSize + xOffset4,
+        this.cardSpaces[4].y * spaceSize + yOffset4
       )
     }
   }
