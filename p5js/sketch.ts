@@ -140,10 +140,14 @@ const resetBingoCard = (
     }
     if (newSeed === 0) newSeed = 1
   }
-  const stageData = JSON.parse(localStorage.getItem('stageData') ?? '""')[stage]
+  const stageData = JSON.parse(localStorage.getItem('bingoStageData') ?? '{}')[
+    stage
+  ]
   let spaceText = []
   spaces = []
   if (stageData !== undefined) {
+    if (!Object.keys(stageData).includes('stage'))
+      console.error('bingoStageData.stage does not exist')
     spaceText = Object.entries(stageData.stage)
       .map((elem: any) => {
         if (elem[0].indexOf('space') === 0) return elem[1]

@@ -44,7 +44,7 @@ export function JoinButton(props: { funct: Function }) {
   useEffect(() => {
     if (!isOpen) return
     const stageData = Object.entries(
-      JSON.parse(localStorage.getItem('stageData') ?? '{}')
+      JSON.parse(localStorage.getItem('bingoStageData') ?? '{}')
     )
     const ret = stageData.map((elem) => {
       return elem[0]

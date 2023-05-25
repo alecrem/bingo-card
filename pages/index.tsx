@@ -79,7 +79,7 @@ export default function Home() {
     const runGetStages = async () => {
       const stages = await getStages()
       setStageData(stages)
-      localStorage.setItem('stageData', JSON.stringify(stages))
+      localStorage.setItem('bingoStageData', JSON.stringify(stages))
       if (document === undefined || document === null) return
       const getStagesEvent = new Event('getStagesEvent')
       document.querySelector('body')?.dispatchEvent(getStagesEvent)
@@ -91,7 +91,7 @@ export default function Home() {
     if (bingoUsername !== null) setUsername(bingoUsername)
     const bingoStage = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
     const stages = Object.keys(
-      JSON.parse(localStorage.getItem('stageData') ?? '{}')
+      JSON.parse(localStorage.getItem('bingoStageData') ?? '{}')
     )
     if (bingoStage !== null && stages.includes(bingoStage)) {
       setStage(bingoStage)
