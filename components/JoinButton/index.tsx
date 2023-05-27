@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
+import type { StageData } from '@/lib/airtable'
 
 export function JoinButton(props: { funct: Function }) {
   const { t } = useTranslation('common')
@@ -43,13 +44,23 @@ export function JoinButton(props: { funct: Function }) {
 
   useEffect(() => {
     if (!isOpen) return
-    const stageData = Object.entries(
-      JSON.parse(localStorage.getItem('bingoStageData') ?? '{}')
+    const stageData: StageData[] = JSON.parse(
+      localStorage.getItem('bingoStageData') ?? '{}'
     )
-    const ret = stageData.map((elem) => {
-      return elem[0]
+    const availableStages = stageData.filter((elem) => {
+      const airDate = new Date(elem.airdate)
+      const earliestDate = new Date('1989-04-21')
+      let latestDate = new Date()
+      latestDate.setDate(latestDate.getDate() + 3)
+      return (
+        airDate.getTime() >= earliestDate.getTime() &&
+        airDate.getTime() <= latestDate.getTime()
+      )
     })
-    setStageIds(ret)
+    const ids = availableStages.map((elem) => {
+      return elem.title
+    })
+    setStageIds(ids)
   }, [isOpen])
 
   const handleUsernameChange = (event: ChangeEvent) => {

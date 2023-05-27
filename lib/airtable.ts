@@ -1,13 +1,11 @@
 import Airtable from 'airtable'
-type StageData = {
+type StageSpaces = {
   [key: string]: string
 }
-type AllStagesData = {
-  [key: string]: {
-    title: string
-    airdate: string
-    stage: StageData
-  }
+type StageData = {
+  title: string
+  airdate: string
+  stage: StageSpaces
 }
 
 const getTable = (table: string = process.env.AIRTABLE_TABLE_NAME ?? '') => {
@@ -32,4 +30,4 @@ const getStageByTitle = async (stageTitle: string) => {
 }
 
 export { getTable, getStages, getStageByTitle }
-export type { StageData, AllStagesData }
+export type { StageData, StageSpaces }
