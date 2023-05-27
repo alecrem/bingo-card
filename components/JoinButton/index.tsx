@@ -47,9 +47,10 @@ export function JoinButton(props: { funct: Function }) {
 
   useEffect(() => {
     if (!isOpen) return
-    const stageData: StageData[] = JSON.parse(
-      localStorage.getItem('bingoStageData') ?? '{}'
+    const stageData: StageData[] | { status: string } = JSON.parse(
+      localStorage.getItem('bingoStageData') ?? '[]'
     )
+    if (stageData.constructor !== Array || stageData.length < 1) return
     const availableStages = stageData.filter((elem) => {
       const airDate = new Date(elem.airdate)
       let latestDate = new Date()

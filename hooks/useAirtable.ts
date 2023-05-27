@@ -3,14 +3,13 @@ const useAirtable = () => {
     try {
       const res = await fetch('/api/get-stages')
       const resJson = await res.json()
-
       if (resJson.status === 'success') {
         return resJson.data
       }
 
-      throw resJson.error
+      return { status: res.status }
     } catch (error: any) {
-      throw new Error(error)
+      return { status: 'error' }
     }
   }
 

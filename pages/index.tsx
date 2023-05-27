@@ -78,8 +78,17 @@ export default function Home() {
   useEffect(() => {
     const runGetStages = async () => {
       const stages = await getStages()
-      setStageData(stages)
-      localStorage.setItem('bingoStageData', JSON.stringify(stages))
+      if (stages.status === 'error') {
+        toast({
+          title: t('toast.connection-error'),
+          status: 'error',
+          duration: 9000,
+          isClosable: true
+        })
+      } else {
+        setStageData(stages)
+        localStorage.setItem('bingoStageData', JSON.stringify(stages))
+      }
       if (document === undefined || document === null) return
       const getStagesEvent = new Event('getStagesEvent')
       document.querySelector('body')?.dispatchEvent(getStagesEvent)

@@ -3,7 +3,8 @@
   "toast": {
     "correct-password": "Palabra clave correcta",
     "wrong-password": "Palabra clave incorrecta",
-    "api-error": "Error al acceder a la API"
+    "api-error": "Error al acceder a la API",
+    "connection-error": "No se pudo conectar con la API"
   },
   "join": {
     "join-button": "Apuntarse",
