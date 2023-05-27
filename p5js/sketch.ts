@@ -115,36 +115,47 @@ const resetBingoCard = (
   passedUsername: string | null = null,
   passedStage: string | null = null
 ) => {
-  let username: string, stage: string
+  let username: string, stageTitle: string
   if (passedUsername === null) {
     username = JSON.parse(localStorage.getItem('bingoUsername') ?? '{}')
     username = username.toLowerCase()
   } else username = passedUsername
   conf.setUsername(username)
   if (passedStage === null) {
-    stage = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
-  } else stage = passedStage
-  conf.setStage(stage)
+    stageTitle = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
+  } else stageTitle = passedStage
+  conf.setStage(stageTitle)
 
   let newSeed = 0
-  if (username !== '' && stage !== '') {
-    for (let i = 0; i < stage.length; i++) {
-      const codePoint = stage.codePointAt(i) ?? 0
+  if (username !== '' && stageTitle !== '') {
+    for (let i = 0; i < stageTitle.length; i++) {
+      const codePoint = stageTitle.codePointAt(i) ?? 0
       newSeed =
         (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
     }
-    for (let i = stage.length; i < stage.length + username.length; i++) {
+    for (
+      let i = stageTitle.length;
+      i < stageTitle.length + username.length;
+      i++
+    ) {
       const codePoint = username.codePointAt(i) ?? 0
       newSeed =
         (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
     }
     if (newSeed === 0) newSeed = 1
   }
-  const stageData = JSON.parse(localStorage.getItem('stageData') ?? '""')[stage]
+  const allStageData = JSON.parse(
+    localStorage.getItem('bingoStageData') ?? '{}'
+  )
+  const stageData = allStageData.filter(
+    (elem: any) => elem.title === stageTitle
+  )[0]
   let spaceText = []
   spaces = []
   if (stageData !== undefined) {
-    spaceText = Object.entries(stageData)
+    if (!Object.keys(stageData).includes('stage'))
+      console.error('bingoStageData.stage does not exist')
+    spaceText = Object.entries(stageData.stage)
       .map((elem: any) => {
         if (elem[0].indexOf('space') === 0) return elem[1]
       })
