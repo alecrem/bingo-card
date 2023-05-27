@@ -87,7 +87,7 @@ export default function Home() {
   useEffect(() => {
     const runGetStages = async () => {
       const stages = await getStages()
-      if (stages.status === 'error') {
+      if (stages.status === 503) {
         toast({
           title: t('toast.connection-error'),
           status: 'error',

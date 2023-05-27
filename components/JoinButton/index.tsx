@@ -51,7 +51,7 @@ export function JoinButton(props: { funct: Function }) {
     if (!isOpen) return
     let noStagesFound = false
     let availableStages: StageData[] = []
-    const stageData: StageData[] | { status: string } = JSON.parse(
+    const stageData: StageData[] | { status: number } = JSON.parse(
       localStorage.getItem('bingoStageData') ?? '[]'
     )
     if (stageData.constructor !== Array || stageData.length < 1) {
@@ -65,7 +65,6 @@ export function JoinButton(props: { funct: Function }) {
       })
     }
     if (noStagesFound) {
-      console.log('no stages')
       toast({
         title: t('toast.no-stages-found'),
         status: 'error',

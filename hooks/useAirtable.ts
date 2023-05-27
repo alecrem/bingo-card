@@ -9,7 +9,7 @@ const useAirtable = () => {
 
       return { status: res.status }
     } catch (error: any) {
-      return { status: 'error' }
+      return { status: 503 }
     }
   }
 
