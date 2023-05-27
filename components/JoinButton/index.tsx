@@ -10,6 +10,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  useToast,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -26,6 +27,7 @@ const DAYS_IN_THE_FUTURE = 3
 
 export function JoinButton(props: { funct: Function }) {
   const { t } = useTranslation('common')
+  const toast = useToast()
   const isJoined = useJoined()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(false)
@@ -47,16 +49,31 @@ export function JoinButton(props: { funct: Function }) {
 
   useEffect(() => {
     if (!isOpen) return
+    let noStagesFound = false
+    let availableStages: StageData[] = []
     const stageData: StageData[] | { status: string } = JSON.parse(
       localStorage.getItem('bingoStageData') ?? '[]'
     )
-    if (stageData.constructor !== Array || stageData.length < 1) return
-    const availableStages = stageData.filter((elem) => {
-      const airDate = new Date(elem.airdate)
-      let latestDate = new Date()
-      latestDate.setDate(latestDate.getDate() + DAYS_IN_THE_FUTURE)
-      return airDate.getTime() <= latestDate.getTime()
-    })
+    if (stageData.constructor !== Array || stageData.length < 1) {
+      noStagesFound = true
+    } else {
+      availableStages = stageData.filter((elem) => {
+        const airDate = new Date(elem.airdate)
+        let latestDate = new Date()
+        latestDate.setDate(latestDate.getDate() + DAYS_IN_THE_FUTURE)
+        return airDate.getTime() <= latestDate.getTime()
+      })
+    }
+    if (noStagesFound) {
+      console.log('no stages')
+      toast({
+        title: t('toast.no-stages-found'),
+        status: 'error',
+        duration: 9000,
+        isClosable: true
+      })
+      return
+    }
     const ids = availableStages.map((elem) => {
       return elem.title
     })
