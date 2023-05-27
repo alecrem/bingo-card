@@ -27,7 +27,7 @@ const useAirtable = () => {
 
       return { status: res.status }
     } catch (error: any) {
-      throw new Error(error)
+      return { status: 503 }
     }
   }
 

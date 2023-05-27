@@ -44,7 +44,16 @@ export default function Home() {
     setIsLoading(false)
 
     // No correct spaces were returned
-    if (!ret || ret.status >= 400) {
+    if (!ret || ret.status === 503) {
+      toast({
+        title: t('toast.connection-error'),
+        status: 'error',
+        duration: 9000,
+        isClosable: true
+      })
+      return
+    }
+    if (ret.status >= 400) {
       if (ret.status === 403) {
         toast({
           title: t('toast.wrong-password'),
