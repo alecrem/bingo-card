@@ -44,7 +44,16 @@ export default function Home() {
     setIsLoading(false)
 
     // No correct spaces were returned
-    if (!ret || ret.status >= 400) {
+    if (!ret || ret.status === 503) {
+      toast({
+        title: t('toast.connection-error'),
+        status: 'error',
+        duration: 9000,
+        isClosable: true
+      })
+      return
+    }
+    if (ret.status >= 400) {
       if (ret.status === 403) {
         toast({
           title: t('toast.wrong-password'),
@@ -78,8 +87,17 @@ export default function Home() {
   useEffect(() => {
     const runGetStages = async () => {
       const stages = await getStages()
-      setStageData(stages)
-      localStorage.setItem('bingoStageData', JSON.stringify(stages))
+      if (stages.status === 503) {
+        toast({
+          title: t('toast.connection-error'),
+          status: 'error',
+          duration: 9000,
+          isClosable: true
+        })
+      } else {
+        setStageData(stages)
+        localStorage.setItem('bingoStageData', JSON.stringify(stages))
+      }
       if (document === undefined || document === null) return
       const getStagesEvent = new Event('getStagesEvent')
       document.querySelector('body')?.dispatchEvent(getStagesEvent)
