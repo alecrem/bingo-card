@@ -21,6 +21,9 @@ import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
 import type { StageData } from '@/lib/airtable'
 
+// We will allow choosing stages this far in the future
+const DAYS_IN_THE_FUTURE = 3
+
 export function JoinButton(props: { funct: Function }) {
   const { t } = useTranslation('common')
   const isJoined = useJoined()
@@ -49,13 +52,9 @@ export function JoinButton(props: { funct: Function }) {
     )
     const availableStages = stageData.filter((elem) => {
       const airDate = new Date(elem.airdate)
-      const earliestDate = new Date('1989-04-21')
       let latestDate = new Date()
-      latestDate.setDate(latestDate.getDate() + 3)
-      return (
-        airDate.getTime() >= earliestDate.getTime() &&
-        airDate.getTime() <= latestDate.getTime()
-      )
+      latestDate.setDate(latestDate.getDate() + DAYS_IN_THE_FUTURE)
+      return airDate.getTime() <= latestDate.getTime()
     })
     const ids = availableStages.map((elem) => {
       return elem.title
