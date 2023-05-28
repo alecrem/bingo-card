@@ -108,10 +108,10 @@ export default function Home() {
     )
     if (bingoUsername !== null) setUsername(bingoUsername)
     const bingoStage = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
-    const stages = Object.keys(
-      JSON.parse(localStorage.getItem('bingoStageData') ?? '{}')
-    )
-    if (bingoStage !== null && stages.includes(bingoStage)) {
+    const stageTitles = JSON.parse(
+      localStorage.getItem('bingoStageData') ?? '{}'
+    ).map((elem: { title: string }) => elem.title)
+    if (bingoStage !== null && stageTitles.includes(bingoStage)) {
       setStage(bingoStage)
     } else {
       setUsername('')
