@@ -6,7 +6,7 @@ const useJoined = () => {
   const [joined, setJoined] = useState(false)
   useEffect(() => {
     const initialStage: string = JSON.parse(
-      localStorage.getItem('bingoStage') ?? '{}'
+      localStorage.getItem('bingoStage') ?? '""'
     )
     if (typeof initialStage !== 'string' || initialStage.length < 1) {
       setJoined(false)
