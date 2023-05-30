@@ -71,6 +71,10 @@ class CardSpace {
   locked: boolean = false
   fill: string = '#000'
   conf: Config
+  colWidth: number = 0
+  rowHeight: number = 0
+  xRect: number = 0
+  yRect: number = 0
   constructor(p5: p5Types, text: string, x: number, y: number) {
     this.p5 = p5
     this.text = text
@@ -80,10 +84,9 @@ class CardSpace {
     if (this.freespace) this.checked = true
     this.conf = getConf()
   }
-  draw() {
+  drawBg() {
     // Update the conf in case the canvas has been resized
     this.conf = getConf()
-    const textSizeHardcodedFactor = 5
     if (this.collisionCheck(this.p5.mouseX, this.p5.mouseY) && !this.locked) {
       this.p5.fill('#ffc')
     } else if (this.freespace) {
@@ -94,12 +97,15 @@ class CardSpace {
     this.p5.stroke(0)
     this.p5.strokeWeight(this.conf.canvasWidth / 400)
 
-    const colWidth = this.conf.canvasWidth / this.conf.cols
+    this.colWidth = this.conf.canvasWidth / this.conf.cols
     // Using this.conf.rows + 1 to account for the header row
-    const rowHeight = this.conf.canvasHeight / (this.conf.rows + 1)
-    const xRect = (this.x * this.conf.canvasWidth) / this.conf.cols
-    const yRect = (this.y * this.conf.canvasHeight) / (this.conf.rows + 1)
-    this.p5.rect(xRect, yRect, colWidth, rowHeight)
+    this.rowHeight = this.conf.canvasHeight / (this.conf.rows + 1)
+    this.xRect = (this.x * this.conf.canvasWidth) / this.conf.cols
+    this.yRect = (this.y * this.conf.canvasHeight) / (this.conf.rows + 1)
+    this.p5.rect(this.xRect, this.yRect, this.colWidth, this.rowHeight)
+  }
+  draw() {
+    const textSizeHardcodedFactor = 5
     if (this.checked) {
       this.drawCheck()
     }
@@ -111,7 +117,7 @@ class CardSpace {
     this.p5.fill(this.fill)
     this.p5.noStroke()
     const yPos = (this.y * this.conf.canvasHeight) / (this.conf.rows + 1)
-    this.p5.text(this.text, xRect, yPos, colWidth, rowHeight)
+    this.p5.text(this.text, this.xRect, yPos, this.colWidth, this.rowHeight)
   }
   drawCheck() {
     if (this.locked) this.p5.stroke('#daa')

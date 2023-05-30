@@ -48,8 +48,9 @@ const draw = (p5: p5Types) => {
   p5.background('#fff')
   p5.push()
   p5.translate(0, conf.canvasHeight / 6)
-  spaces.forEach((space) => space.draw())
+  spaces.forEach((space) => space.drawBg())
   conf.lines.forEach((line) => line.draw())
+  spaces.forEach((space) => space.draw())
   p5.pop()
   conf.draw()
 }
