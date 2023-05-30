@@ -117,12 +117,12 @@ const resetBingoCard = (
 ) => {
   let username: string, stageTitle: string
   if (passedUsername === null) {
-    username = JSON.parse(localStorage.getItem('bingoUsername') ?? '{}')
+    username = JSON.parse(localStorage.getItem('bingoUsername') ?? '""')
     username = username.toLowerCase()
   } else username = passedUsername
   conf.setUsername(username)
   if (passedStage === null) {
-    stageTitle = JSON.parse(localStorage.getItem('bingoStage') ?? '{}')
+    stageTitle = JSON.parse(localStorage.getItem('bingoStage') ?? '""')
   } else stageTitle = passedStage
   conf.setStage(stageTitle)
 
@@ -145,7 +145,7 @@ const resetBingoCard = (
     if (newSeed === 0) newSeed = 1
   }
   const allStageData = JSON.parse(
-    localStorage.getItem('bingoStageData') ?? '{}'
+    localStorage.getItem('bingoStageData') ?? '[]'
   )
   const stageData = allStageData.filter(
     (elem: any) => elem.title === stageTitle
