@@ -42,16 +42,6 @@ export function PasswordButton(props: {
     })
   }, [])
 
-  useEffect(() => {
-    if (!isOpen) return
-    const ids = Object.entries(
-      JSON.parse(localStorage.getItem('bingoStageData') ?? '{}')
-    )
-    ids.forEach((elem) => {
-      return elem[0]
-    })
-  }, [isOpen])
-
   const handlePasswordChange = (event: ChangeEvent) => {
     const input = event.target as HTMLInputElement
     if (input.value != null) {
