@@ -139,7 +139,7 @@ const resetBingoCard = (
       i < stageTitle.length + username.length;
       i++
     ) {
-      const codePoint = username.codePointAt(i) ?? 0
+      const codePoint = username.codePointAt(i - stageTitle.length) ?? 0
       newSeed =
         (newSeed + codePoint * Math.pow(10, i + 2)) % Number.MAX_SAFE_INTEGER
     }
