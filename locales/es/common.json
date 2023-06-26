@@ -1,5 +1,5 @@
 {
-  "site-title": "Bingo Card",
+  "site-title": "Tarjeta de bingo",
   "toast": {
     "correct-password": "Palabra clave correcta",
     "wrong-password": "Palabra clave incorrecta",
@@ -19,7 +19,7 @@
       },
       "stage": {
         "label": "Episodio",
-        "message": "Elige el número del programa en el que participas"
+        "message": "Elige un programa en el que participar"
       },
       "submit-button": "Apuntarse"
     }
@@ -30,7 +30,7 @@
       "header": "Revelar respuestas",
       "password": {
         "label": "Palabra clave del episodio {{stage}}",
-        "message": "Introduce la palabra clave que damos al final del episodio"
+        "message": "Introduce la palabra clave que damos para el episodio"
       },
       "submit-button": "Revelar"
     }
