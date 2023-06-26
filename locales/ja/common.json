@@ -1,0 +1,41 @@
+{
+  "site-title": "BINGOカード",
+  "toast": {
+    "correct-password": "キーワード: 正解",
+    "wrong-password": "キーワード: 不正解",
+    "api-error": "APIアクセス時にエラー",
+    "connection-error": "APIへの接続不可",
+    "no-stages-found": "選択するエピソードがありません"
+  },
+  "join": {
+    "join-button": "参加",
+    "loading-episodes": "エピソード読み込み中",
+    "unjoin-button": "参加解除 / エピソード切り替え",
+    "form": {
+      "header": "BINGOに参加する",
+      "username": {
+        "label": "ユーザーネーム",
+        "message": "Twitter、Discord、Mastodonなどのユーザーネームを（最初の\"@\"なしで）入力してください"
+      },
+      "stage": {
+        "label": "エピソード",
+        "message": "参加するエピソードを選択してください"
+      },
+      "submit-button": "参加"
+    }
+  },
+  "reveal": {
+    "reveal-button": "正解を開示",
+    "form": {
+      "header": "正解を開示する",
+      "password": {
+        "label": "エピソード{{stage}}のあいことば",
+        "message": "このエピソードのために共有されたあいことばを入力してください"
+      },
+      "submit-button": "開示"
+    }
+  },
+  "bingocard": {
+    "save-png": "PNGを保存"
+  }
+}

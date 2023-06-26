@@ -1,0 +1,41 @@
+{
+  "site-title": "Bingo Card",
+  "toast": {
+    "correct-password": "Key word correct",
+    "wrong-password": "Key word incorrect",
+    "api-error": "Error accessing the API",
+    "connection-error": "Unable to connect to the API",
+    "no-stages-found": "No episodes available"
+  },
+  "join": {
+    "join-button": "Join",
+    "loading-episodes": "Loading episodes",
+    "unjoin-button": "Unjoin or change episode",
+    "form": {
+      "header": "Join the bingo",
+      "username": {
+        "label": "Username",
+        "message": "Your username without the \"@\" in the front (Twitter, Discord, Mastodon...)"
+      },
+      "stage": {
+        "label": "Episode",
+        "message": "Choose an episode number to join for"
+      },
+      "submit-button": "Join"
+    }
+  },
+  "reveal": {
+    "reveal-button": "Reveal answers",
+    "form": {
+      "header": "Reveal answers",
+      "password": {
+        "label": "Key word for episode {{stage}}",
+        "message": "Input the key word shared for the episode"
+      },
+      "submit-button": "Reveal"
+    }
+  },
+  "bingocard": {
+    "save-png": "Save PNG"
+  }
+}
