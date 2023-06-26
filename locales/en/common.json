@@ -19,6 +19,7 @@
       },
       "stage": {
         "label": "Episode",
+        "placeholder": "Choose one",
         "message": "Choose an episode number to join for"
       },
       "submit-button": "Join"

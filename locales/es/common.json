@@ -19,6 +19,7 @@
       },
       "stage": {
         "label": "Episodio",
+        "placeholder": "Elige uno",
         "message": "Elige un programa en el que participar"
       },
       "submit-button": "Apuntarse"

@@ -19,6 +19,7 @@
       },
       "stage": {
         "label": "エピソード",
+        "placeholder": "一つ選んでください",
         "message": "参加するエピソードを選択してください"
       },
       "submit-button": "参加"
