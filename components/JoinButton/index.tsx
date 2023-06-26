@@ -158,7 +158,10 @@ export function JoinButton(props: { funct: Function }) {
             </FormControl>
             <FormControl isInvalid={isErrorStage}>
               <FormLabel>{t('join.form.stage.label')}</FormLabel>
-              <Select placeholder="Elige uno" onChange={handleStageChange}>
+              <Select
+                placeholder={t('join.form.stage.placeholder')}
+                onChange={handleStageChange}
+              >
                 {stageIds.length > 0 &&
                   stageIds.map((id) => {
                     return <option key={id.toString()}>{id.toString()}</option>
