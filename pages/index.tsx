@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Container, Heading, useToast } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
+import setLanguage from 'next-translate/setLanguage'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
 import { PasswordButton } from '@/components/PasswordButton'
@@ -14,6 +15,7 @@ interface StageData {
 export default function Home() {
   const { t } = useTranslation('common')
   const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE ?? t('site-title')
+  const forcedLanguage = process.env.NEXT_PUBLIC_FORCED_LANGUAGE ?? ''
   const { getStages, checkPassword } = useAirtable()
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
@@ -85,6 +87,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    if (forcedLanguage) setLanguage(forcedLanguage)
     const runGetStages = async () => {
       const stages = await getStages()
       if (stages.status === 503) {
