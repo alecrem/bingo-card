@@ -43,11 +43,19 @@ class Config {
     this.p5.textSize(textSize)
     this.p5.textStyle(this.p5.BOLD)
     this.p5.textAlign(this.p5.CENTER, this.p5.CENTER)
+    this.p5.textFont('courier')
+    this.p5.text(this.stage + '', this.canvasWidth / 2, this.canvasHeight / 21)
+    const userNameLen = this.username.length + 1
+    const userNameTextSize =
+      userNameLen > 10 ? (textSize * 20) / userNameLen : textSize
+    this.p5.textSize(userNameTextSize)
+
     this.p5.text(
-      '@' + this.username + ' ' + this.stage,
+      '@' + this.username,
       this.canvasWidth / 2,
-      this.canvasHeight / 7 / 2 + textSize / 3
+      this.canvasHeight / 12 + textSize / 2
     )
+    this.p5.textFont('sans-serif')
     const completedLines = this.lines.filter((line) => line.completed).length
     if (completedLines < 1) return
     let completedLinesText = completedLines === 1 ? ' line' : ' lines'
