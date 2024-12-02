@@ -3,21 +3,16 @@ import {
   Button,
   Spinner,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input
+  Input,
+  DialogRoot,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogFooter
 } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
+import { Field } from '@/components/ui/field'
 
 export function PasswordButton(props: {
   passwordReturned: Function
@@ -26,7 +21,7 @@ export function PasswordButton(props: {
   const { t } = useTranslation('common')
   const { passwordReturned, isLoading } = props
   const isJoined = useJoined()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { open, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(isJoined)
   const [password, setPassword] = useState('')
   const [stage, setStage] = useState('')
@@ -63,7 +58,7 @@ export function PasswordButton(props: {
   if (stage === '') return <></>
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen} isDisabled={isLoading}>
+      <Button colorScheme="blue" onClick={onOpen} disabled={isLoading}>
         {t('reveal.reveal-button')}
         {isLoading && (
           <>
@@ -72,39 +67,30 @@ export function PasswordButton(props: {
           </>
         )}
       </Button>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{t('reveal.form.header')}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl isInvalid={isErrorPassword}>
-              <FormLabel>
-                {t('reveal.form.password.label', { stage: stage })}
-              </FormLabel>
+      <DialogRoot onClose={onClose} open={open} isCentered>
+        <DialogContent>
+          <DialogHeader>{t('reveal.form.header')}</DialogHeader>
+          <DialogBody>
+            <Field
+              isInvalid={isErrorPassword}
+              label={t('reveal.form.password.label', { stage: stage })}
+              helperText={t('reveal.form.password.message')}
+              errorText={t('reveal.form.password.message')}
+            >
               <Input value={password} onChange={handlePasswordChange} />
-              {!isErrorPassword ? (
-                <FormHelperText>
-                  {t('reveal.form.password.message')}
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  {t('reveal.form.password.message')}
-                </FormErrorMessage>
-              )}
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
+            </Field>
+          </DialogBody>
+          <DialogFooter>
             <Button
-              isDisabled={isErrorPassword}
+              disabled={isErrorPassword}
               colorScheme="blue"
               onClick={transferValue}
             >
               {t('reveal.form.submit-button')}
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </DialogRoot>
     </>
   )
 }
