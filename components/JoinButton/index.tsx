@@ -3,33 +3,30 @@ import {
   Button,
   Spinner,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useToast,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
-  Select
+  DialogRoot,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogBody,
+  Input
 } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
 import type { StageData } from '@/lib/airtable'
+import { Field } from '@/components/ui/field'
+import {
+  NativeSelectField,
+  NativeSelectRoot
+} from '@/components/ui/native-select'
+import { toaster } from '@/components/ui/toaster'
 
 // We will allow choosing stages this far in the future
 const DAYS_IN_THE_FUTURE = 3
 
 export function JoinButton(props: { funct: Function }) {
   const { t } = useTranslation('common')
-  const toast = useToast()
   const isJoined = useJoined()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { open, onOpen, onClose } = useDisclosure()
   const [joined, setJoined] = useState(false)
   const [username, setUsername] = useState('')
   const [stage, setStage] = useState('')
@@ -48,7 +45,7 @@ export function JoinButton(props: { funct: Function }) {
   }, [isJoined])
 
   useEffect(() => {
-    if (!isOpen) return
+    if (!open) return
     let noStagesFound = false
     let availableStages: StageData[] = []
     const stageData: StageData[] | { status: number } = JSON.parse(
@@ -65,7 +62,7 @@ export function JoinButton(props: { funct: Function }) {
       })
     }
     if (noStagesFound) {
-      toast({
+      toaster.create({
         title: t('toast.no-stages-found'),
         status: 'error',
         duration: 9000,
@@ -77,7 +74,7 @@ export function JoinButton(props: { funct: Function }) {
       return elem.title
     })
     setStageIds(ids)
-  }, [isOpen])
+  }, [open])
 
   const handleUsernameChange = (event: ChangeEvent) => {
     const input = event.target as HTMLInputElement
@@ -120,7 +117,7 @@ export function JoinButton(props: { funct: Function }) {
   return (
     <>
       {!joined ? (
-        <Button colorScheme="blue" onClick={onOpen} isDisabled={!dataLoaded}>
+        <Button colorScheme="blue" onClick={onOpen} disabled={!dataLoaded}>
           {dataLoaded ? (
             <>{t('join.join-button')}</>
           ) : (
@@ -133,60 +130,54 @@ export function JoinButton(props: { funct: Function }) {
       ) : (
         <Button onClick={unJoin}>{t('join.unjoin-button')}</Button>
       )}
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{t('join.form.header')}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl isInvalid={isErrorUsername}>
-              <FormLabel>{t('join.form.username.label')}</FormLabel>
+      <DialogRoot onClose={onClose} open={open} isCentered>
+        <DialogContent>
+          <DialogHeader>{t('join.form.header')}</DialogHeader>
+          <DialogBody>
+            <Field
+              isInvalid={isErrorUsername}
+              label={t('join.form.username.label')}
+              helperText={t('join.form.username.message')}
+              errorText={t('join.form.username.message')}
+            >
               <Input
                 type="email"
                 value={username}
                 onChange={handleUsernameChange}
               />
-              {!isErrorUsername ? (
-                <FormHelperText>
-                  {t('join.form.username.message')}
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  {t('join.form.username.message')}
-                </FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={isErrorStage}>
-              <FormLabel>{t('join.form.stage.label')}</FormLabel>
-              <Select
-                placeholder={t('join.form.stage.placeholder')}
-                onChange={handleStageChange}
-              >
-                {stageIds.length > 0 &&
-                  stageIds.map((id) => {
-                    return <option key={id.toString()}>{id.toString()}</option>
-                  })}
-              </Select>
-              {!isErrorStage ? (
-                <FormHelperText>{t('join.form.stage.message')}</FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  {t('join.form.stage.message')}
-                </FormErrorMessage>
-              )}
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
+            </Field>
+            <Field
+              isInvalid={isErrorStage}
+              label={t('join.form.stage.label')}
+              helperText={t('join.form.stage.message')}
+              errorText={t('join.form.stage.message')}
+            >
+              <NativeSelectRoot>
+                <NativeSelectField
+                  placeholder={t('join.form.stage.placeholder')}
+                  onChange={handleStageChange}
+                >
+                  {stageIds.length > 0 &&
+                    stageIds.map((id) => {
+                      return (
+                        <option key={id.toString()}>{id.toString()}</option>
+                      )
+                    })}
+                </NativeSelectField>
+              </NativeSelectRoot>
+            </Field>
+          </DialogBody>
+          <DialogFooter>
             <Button
-              isDisabled={isError}
+              disabled={isError}
               colorScheme="blue"
               onClick={transferValue}
             >
               {t('join.form.submit-button')}
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </DialogRoot>
     </>
   )
 }

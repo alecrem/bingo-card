@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Box, Container, Heading, useToast } from '@chakra-ui/react'
+import { Box, Container, Heading } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import setLanguage from 'next-translate/setLanguage'
 import { BingoCard } from '@/components/BingoCard'
 import { JoinButton } from '@/components/JoinButton'
 import { PasswordButton } from '@/components/PasswordButton'
 import { useAirtable } from '@/hooks/useAirtable'
+import { toaster } from '@/components/ui/toaster'
 
 interface StageData {
   fields: {
@@ -21,7 +22,6 @@ export default function Home() {
   const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const toast = useToast()
 
   const joinBingo = (joinData: { username: string; stage: string }) => {
     setUsername(joinData.username)
@@ -47,7 +47,7 @@ export default function Home() {
 
     // No correct spaces were returned
     if (!ret || ret.status === 503) {
-      toast({
+      toaster.create({
         title: t('toast.connection-error'),
         status: 'error',
         duration: 9000,
@@ -57,7 +57,7 @@ export default function Home() {
     }
     if (ret.status >= 400) {
       if (ret.status === 403) {
-        toast({
+        toaster.create({
           title: t('toast.wrong-password'),
           status: 'warning',
           duration: 9000,
@@ -65,7 +65,7 @@ export default function Home() {
         })
         return
       }
-      toast({
+      toaster.create({
         title: t('toast.api-error'),
         status: 'error',
         duration: 9000,
@@ -75,7 +75,7 @@ export default function Home() {
     }
 
     if (document === undefined || document === null) return
-    toast({
+    toaster.create({
       title: t('toast.correct-password'),
       status: 'success',
       isClosable: true
@@ -91,7 +91,7 @@ export default function Home() {
     const runGetStages = async () => {
       const stages = await getStages()
       if (stages.status === 503) {
-        toast({
+        toaster.create({
           title: t('toast.connection-error'),
           status: 'error',
           duration: 9000,
