@@ -18,7 +18,6 @@ import {
   NativeSelectField,
   NativeSelectRoot
 } from '@/components/ui/native-select'
-import { toaster } from '@/components/ui/toaster'
 
 // We will allow choosing stages this far in the future
 const DAYS_IN_THE_FUTURE = 3
@@ -62,12 +61,7 @@ export function JoinButton(props: { funct: Function }) {
       })
     }
     if (noStagesFound) {
-      toaster.create({
-        title: t('toast.no-stages-found'),
-        status: 'error',
-        duration: 9000,
-        isClosable: true
-      })
+      alert(`⚠️ ${t('toast.no-stages-found')}`)
       return
     }
     const ids = availableStages.map((elem) => {
