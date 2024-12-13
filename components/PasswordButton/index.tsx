@@ -58,7 +58,12 @@ export function PasswordButton(props: {
   if (stage === '') return <></>
   return (
     <>
-      <Button colorScheme="blue" onClick={onOpen} disabled={isLoading}>
+      <Button
+        colorPalette="blue"
+        variant="surface"
+        onClick={onOpen}
+        disabled={isLoading}
+      >
         {t('reveal.reveal-button')}
         {isLoading && (
           <>
@@ -83,7 +88,8 @@ export function PasswordButton(props: {
           <DialogFooter>
             <Button
               disabled={isErrorPassword}
-              colorScheme="blue"
+              colorPalette="blue"
+              variant="surface"
               onClick={transferValue}
             >
               {t('reveal.form.submit-button')}

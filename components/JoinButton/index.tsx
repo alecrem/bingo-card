@@ -111,7 +111,12 @@ export function JoinButton(props: { funct: Function }) {
   return (
     <>
       {!joined ? (
-        <Button colorScheme="blue" onClick={onOpen} disabled={!dataLoaded}>
+        <Button
+          colorPalette="blue"
+          variant="surface"
+          onClick={onOpen}
+          disabled={!dataLoaded}
+        >
           {dataLoaded ? (
             <>{t('join.join-button')}</>
           ) : (
@@ -122,7 +127,9 @@ export function JoinButton(props: { funct: Function }) {
           )}
         </Button>
       ) : (
-        <Button onClick={unJoin}>{t('join.unjoin-button')}</Button>
+        <Button colorPalette="gray" variant="surface" onClick={unJoin}>
+          {t('join.unjoin-button')}
+        </Button>
       )}
       <DialogRoot onClose={onClose} open={open} isCentered>
         <DialogContent>
@@ -164,7 +171,8 @@ export function JoinButton(props: { funct: Function }) {
           <DialogFooter>
             <Button
               disabled={isError}
-              colorScheme="blue"
+              colorPalette="blue"
+              variant="surface"
               onClick={transferValue}
             >
               {t('join.form.submit-button')}

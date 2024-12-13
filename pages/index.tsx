@@ -113,8 +113,16 @@ export default function Home() {
   return (
     <>
       <Box>
-        <Container maxW="container.sm" mt="2em" mb="2em">
-          <Heading as="h1" size="4xl" mb="0.5em">
+        <Container maxW="640px" mt="2em" mb="2em">
+          <Heading
+            as="h1"
+            size={'7xl'}
+            fontWeight={'bold'}
+            fontSize="3.75 rem"
+            letterSpacing={'0'}
+            lineHeight={1}
+            mb="0.5em"
+          >
             {siteTitle} <JoinButton funct={joinBingo} />{' '}
             <PasswordButton
               passwordReturned={passwordReturned}
@@ -122,7 +130,7 @@ export default function Home() {
             />
           </Heading>
         </Container>
-        <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
+        <Container maxW="640px" mt="2em" mb="2em" pl={0} pr={0}>
           {username.length > 0 && <BingoCard />}
         </Container>
       </Box>
