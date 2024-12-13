@@ -28,7 +28,7 @@ export function BingoCard() {
     <>
       {isMounted && (
         <>
-          <AspectRatio maxW="container.sm" ratio={5 / 6}>
+          <AspectRatio maxW="640px" ratio={5 / 6}>
             <Sketch
               setup={setup}
               draw={draw}
@@ -36,7 +36,12 @@ export function BingoCard() {
               mouseClicked={mouseClicked}
             />
           </AspectRatio>
-          <Button onClick={handleSave} mt="1em">
+          <Button
+            colorPalette="gray"
+            variant="surface"
+            onClick={handleSave}
+            mt="1em"
+          >
             {t('bingocard.save-png')}
           </Button>
         </>

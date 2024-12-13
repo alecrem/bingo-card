@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Container, Heading, useToast } from '@chakra-ui/react'
+import { Box, Container, Heading } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import setLanguage from 'next-translate/setLanguage'
 import { BingoCard } from '@/components/BingoCard'
@@ -21,7 +21,6 @@ export default function Home() {
   const [stage, setStage] = useState('')
   const [stageData, setStageData] = useState<StageData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const toast = useToast()
 
   const joinBingo = (joinData: { username: string; stage: string }) => {
     setUsername(joinData.username)
@@ -47,39 +46,21 @@ export default function Home() {
 
     // No correct spaces were returned
     if (!ret || ret.status === 503) {
-      toast({
-        title: t('toast.connection-error'),
-        status: 'error',
-        duration: 9000,
-        isClosable: true
-      })
+      alert(`⚠️ ${t('toast.connection-error')}`)
       return
     }
     if (ret.status >= 400) {
       if (ret.status === 403) {
-        toast({
-          title: t('toast.wrong-password'),
-          status: 'warning',
-          duration: 9000,
-          isClosable: true
-        })
+        alert(`⚠️ ${t('toast.wrong-password')}`)
         return
       }
-      toast({
-        title: t('toast.api-error'),
-        status: 'error',
-        duration: 9000,
-        isClosable: true
-      })
+      alert(`⚠️ ${t('toast.api-error')}`)
       return
     }
 
     if (document === undefined || document === null) return
-    toast({
-      title: t('toast.correct-password'),
-      status: 'success',
-      isClosable: true
-    })
+    // alert(`✅ ${t('toast.correct-password')}`)
+
     const revealEvent = new CustomEvent('revealEvent', {
       detail: ret.data
     })
@@ -91,12 +72,7 @@ export default function Home() {
     const runGetStages = async () => {
       const stages = await getStages()
       if (stages.status === 503) {
-        toast({
-          title: t('toast.connection-error'),
-          status: 'error',
-          duration: 9000,
-          isClosable: true
-        })
+        alert(`⚠️ ${t('toast.connection-error')}`)
       } else {
         setStageData(stages)
         localStorage.setItem('bingoStageData', JSON.stringify(stages))
@@ -137,8 +113,16 @@ export default function Home() {
   return (
     <>
       <Box>
-        <Container maxW="container.sm" mt="2em" mb="2em">
-          <Heading as="h1" size="4xl" mb="0.5em">
+        <Container maxW="640px" mt="2em" mb="2em">
+          <Heading
+            as="h1"
+            size={'7xl'}
+            fontWeight={'bold'}
+            fontSize="3.75 rem"
+            letterSpacing={'0'}
+            lineHeight={1}
+            mb="0.5em"
+          >
             {siteTitle} <JoinButton funct={joinBingo} />{' '}
             <PasswordButton
               passwordReturned={passwordReturned}
@@ -146,7 +130,7 @@ export default function Home() {
             />
           </Heading>
         </Container>
-        <Container maxW="container.sm" mt="2em" mb="2em" pl={0} pr={0}>
+        <Container maxW="640px" mt="2em" mb="2em" pl={0} pr={0}>
           {username.length > 0 && <BingoCard />}
         </Container>
       </Box>
