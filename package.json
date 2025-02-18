@@ -15,7 +15,7 @@
     "@next/font": "14.2.15",
     "@types/node": "22.13.4",
     "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
+    "@types/react-dom": "19.0.4",
     "airtable": "^0.12.2",
     "eslint": "9.20.1",
     "eslint-config-next": "15.1.6",
