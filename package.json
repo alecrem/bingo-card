@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.14.0",
     "@next/font": "14.2.15",
     "@types/node": "22.14.0",
-    "@types/react": "19.0.12",
+    "@types/react": "19.1.0",
     "@types/react-dom": "19.0.4",
     "airtable": "^0.12.2",
     "eslint": "9.23.0",
