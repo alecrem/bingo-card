@@ -7,8 +7,8 @@ import {
   DialogRoot,
   DialogContent,
   DialogHeader,
-  DialogBody,
-  DialogFooter
+  DialogFooter,
+  DialogBody
 } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import { useJoined } from '@/hooks/useJoined'
@@ -73,6 +73,8 @@ export function PasswordButton(props: {
         )}
       </Button>
       <DialogRoot onClose={onClose} open={open} isCentered>
+        {/* TODO: Remove @ts-ignore when @chakra-ui/react fixes children prop types in future version */}
+        {/* @ts-ignore */}
         <DialogContent>
           <DialogHeader>{t('reveal.form.header')}</DialogHeader>
           <DialogBody>

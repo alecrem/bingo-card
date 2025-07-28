@@ -132,6 +132,8 @@ export function JoinButton(props: { funct: Function }) {
         </Button>
       )}
       <DialogRoot onClose={onClose} open={open} isCentered>
+        {/* TODO: Remove @ts-ignore when @chakra-ui/react fixes children prop types in future version */}
+        {/* @ts-ignore */}
         <DialogContent>
           <DialogHeader>{t('join.form.header')}</DialogHeader>
           <DialogBody>
