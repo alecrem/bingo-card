@@ -27,7 +27,7 @@
     "react-dom": "19.1.1",
     "react-icons": "^5.5.0",
     "react-p5": "^1.4.1",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
   "devDependencies": {
     "next-translate-plugin": "^2.6.2"
