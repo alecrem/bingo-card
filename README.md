@@ -2,10 +2,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, install the project's npm depencencies:
+First, install the project's npm dependencies:
 
 ```bash
-yarn
+pnpm install
 ```
 
 Make your personal copy of `.env.sample` and fill it with your site's name and the information needed for the site to access your Airtable table ([create a personal access token](https://airtable.com/create/tokens)):
@@ -17,7 +17,7 @@ cp .env.sample .env.local
 Then, run the development server:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
