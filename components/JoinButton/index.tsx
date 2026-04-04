@@ -131,14 +131,14 @@ export function JoinButton(props: { funct: Function }) {
           {t('join.unjoin-button')}
         </Button>
       )}
-      <DialogRoot onClose={onClose} open={open} isCentered>
+      <DialogRoot onOpenChange={(e) => !e.open && onClose()} open={open} placement="center">
         {/* TODO: Remove @ts-ignore when @chakra-ui/react fixes children prop types in future version */}
         {/* @ts-ignore */}
         <DialogContent>
           <DialogHeader>{t('join.form.header')}</DialogHeader>
           <DialogBody>
             <Field
-              isInvalid={isErrorUsername}
+              invalid={isErrorUsername}
               label={t('join.form.username.label')}
               helperText={t('join.form.username.message')}
               errorText={t('join.form.username.message')}
@@ -150,7 +150,7 @@ export function JoinButton(props: { funct: Function }) {
               />
             </Field>
             <Field
-              isInvalid={isErrorStage}
+              invalid={isErrorStage}
               label={t('join.form.stage.label')}
               helperText={t('join.form.stage.message')}
               errorText={t('join.form.stage.message')}

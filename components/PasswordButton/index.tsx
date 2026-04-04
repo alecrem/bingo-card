@@ -72,14 +72,14 @@ export function PasswordButton(props: {
           </>
         )}
       </Button>
-      <DialogRoot onClose={onClose} open={open} isCentered>
+      <DialogRoot onOpenChange={(e) => !e.open && onClose()} open={open} placement="center">
         {/* TODO: Remove @ts-ignore when @chakra-ui/react fixes children prop types in future version */}
         {/* @ts-ignore */}
         <DialogContent>
           <DialogHeader>{t('reveal.form.header')}</DialogHeader>
           <DialogBody>
             <Field
-              isInvalid={isErrorPassword}
+              invalid={isErrorPassword}
               label={t('reveal.form.password.label', { stage: stage })}
               helperText={t('reveal.form.password.message')}
               errorText={t('reveal.form.password.message')}
