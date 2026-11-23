@@ -17,9 +17,6 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@7.2.0))(@types/react@19.2.18)(react@19.2.8)(supports-color@7.2.0)
-      '@next/font':
-        specifier: 14.2.15
-        version: 14.2.15(next@16.4.6(@babel/core@7.29.13(supports-color@7.2.0))(@types/node@26.2.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
       '@types/node':
         specifier: 26.2.0
         version: 26.2.0
@@ -481,11 +478,6 @@ packages:
 
   '@next/eslint-plugin-next@16.3.1':
     resolution: {integrity: sha512-B4SznlXwVpaLDa7Tbi6zLuueria2d/PmFDhXyDymPGrk2r1n/RMJmcn5FZq1L64k+Jsyte1lKvOr7lP9Xo80mQ==}
-
-  '@next/font@14.2.15':
-    resolution: {integrity: sha512-QopYhBmCDDrNDynbi+ZD1hDZXmQXVFo7TmAFp4DQgO/kogz1OLbQ92hPigJbj572eZ3GaaVxNIyYVn3/eAsehg==}
-    peerDependencies:
-      next: '*'
 
   '@next/swc-darwin-arm64@16.4.6':
     resolution: {integrity: sha512-kJ4VVZkley17xKaJx72QN2IBqjrj7zenCQZaUF0l9ShS/1Mt2kW4+Z5KGG6vgr3L/J562xTOizVyM1iA/u5nlg==}
@@ -2841,10 +2833,6 @@ snapshots:
       fast-glob: 3.3.1
     transitivePeerDependencies:
       - eslint
-
-  '@next/font@14.2.15(next@16.4.6(@babel/core@7.29.13(supports-color@7.2.0))(@types/node@26.2.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))':
-    dependencies:
-      next: 16.4.6(@babel/core@7.29.13(supports-color@7.2.0))(@types/node@26.2.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   '@next/swc-darwin-arm64@16.4.6':
     optional: true
