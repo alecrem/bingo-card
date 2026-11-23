@@ -1,0 +1,3 @@
+allowBuilds:
+  next-translate-plugin: false
+  react-p5: false
